@@ -1,4 +1,4 @@
-# devops
+# devops - walktrought
 
 Yes, you can create the entire project in Python, including both the frontend and backend. Here’s how you can approach it:
 

@@ -1,0 +1,46 @@
+git status - for status
+
+git add:
+    git add <file>  # Stage a specific file
+    git add .     # Stage all changes
+
+git commit :
+    git commit -m "Message"
+
+git push Push your changes to the remote repository:
+    git push origin <branch>
+
+git pull Fetch and merge changes from the remote repository:
+    git pull origin <branch>
+
+git branch - list, create, delete branch:
+    git branch   # List all branches
+    git branch <branch_name> # Create a new branch
+    git branch -d <branch_name> # Delete a branch
+
+git checkout - Switch to a different branch or restore working tree files:
+    git checkout <branch_name> # Switch to a branch
+    git checkout -b <branch_name> # Create and switch to a new branch
+
+git merge - Merge changes from one branch into another:
+    git checkout <target_branch>
+    git merge <source_branch>
+
+git log - history:
+    git log
+
+git revert - Create a new commit that undoes the changes of a previous commit:
+    git revert <commit_hash>
+
+git remote - Manage remote repositories:
+    git remote -v   # List remote repositories
+    git remote add <name> <url> # Add a new remote
+    git remote remove <name>    # Remove a remote
+
+git tag - Create, list, delete, or verify tags:
+    git tag <tag_name>  # Create a new tag
+    git tag # List all tags
+    git tag -d <tag_name>   # Delete a tag
+
+
+

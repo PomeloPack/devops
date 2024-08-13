@@ -1,0 +1,3 @@
+CREATE DATABASE task_manager;
+CREATE USER pomelo WITH PASSWORD '57Baf1a8?';
+GRANT ALL PRIVILEGES ON DATABASE task_manager TO pomelo;

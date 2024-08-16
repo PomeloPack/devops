@@ -1,1 +1,52 @@
 port pro postgres 5432
+
+################################################################################################
+
+vytvořil jsem vsechny tabulky pres sql shell aka:
+
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    status VARCHAR(20) NOT NULL DEFAULT 'Pending',
+    priority VARCHAR(20) DEFAULT 'Normal',
+    due_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INT REFERENCES users(id) ON DELETE SET NULL,
+    project_id INT REFERENCES projects(id) ON DELETE SET NULL
+);
+
+atd....
+
+kdybych je chtěl vytvořit v python scriptu udělám jako:
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(20), nullable=False, default='Pending')
+    priority = db.Column(db.String(20), default='Normal')
+    due_date = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+    Na to aby to šlo se musi naimportovart:
+
+    from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://username:password@localhost/task_manager'
+db = SQLAlchemy(app)
+
+a na konec scriptu
+
+# Running this line will create the tables
+db.create_all()
+
+################################################################################################
+

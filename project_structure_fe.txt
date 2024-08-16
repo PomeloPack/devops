@@ -1,0 +1,13 @@
+task_manager/
+│
+├── app.py
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── add_task.html
+│   └── task_detail.html
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── models.py

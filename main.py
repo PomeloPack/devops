@@ -4,9 +4,33 @@ from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import psycopg2
+from config import config
 
-#connect to database
-connection = psycopg2.connect(host='localhost', port='5432', database='task_manager', user='postgres', password='57Baf1a8?')
+
+
+#db connect
+def connect():
+    connection = None
+    try:
+        params = config()
+        print('Connecting to the postgres database ...')
+        # **params copy all from database.ini into these two
+        connection = psycopg2.connect(**params)
+
+        #create a cursor
+        cursor = connection.cursor()
+        print('PostgreSQL database version: ')
+        cursor.execute('SELECT version()')
+        db_version = cursor.fetchone()
+        print(db_version)
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if connection is not None:
+            connection.close()
+            print('Ping was successful ... connection closed')
+if __name__ == '__main__':
+    connect()
 
 
 

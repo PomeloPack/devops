@@ -4,10 +4,22 @@ from datetime import datetime
 import psycopg2
 from config import config
 import logging
+<<<<<<< Updated upstream
 from db_models import User, Task, Project, Comment
 
 #setup flask app
+=======
+from db_models import User, Task, Project, Comment, db
+
+
+#setup flask
+>>>>>>> Stashed changes
 app = Flask(__name__)
+
+db = SQLAlchemy()
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:57Baf1a8@localhost/task_manager'
 
 # logs
 logging.basicConfig(format='%(asctime)s - %(levelname)s -  %(message)s', level=logging.DEBUG)
@@ -41,6 +53,14 @@ def db_connect():
 if __name__ == '__main__':
     db_connect()
 
+<<<<<<< Updated upstream
+=======
+
+#@app._got_first_request
+#def create_database():
+#     db.create_all()
+
+>>>>>>> Stashed changes
 @app.route('/')
 def index():
     tasks = Task.query.all()
@@ -76,5 +96,7 @@ def delete_task(task_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+db.init_app()
 
 

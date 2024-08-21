@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import datanase_exists, create_dataname
 from datetime import datetime
 import psycopg2
 from config import config
 import logging
 from db_models import User, Task, Project, Comment, db
+from database.ini import postgresql as settings
 
 #setup flask
 app = Flask(__name__)

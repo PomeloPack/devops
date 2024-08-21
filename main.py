@@ -4,13 +4,9 @@ from datetime import datetime
 import psycopg2
 from config import config
 import logging
-
-
-# Import your models
 from db_models import User, Task, Project, Comment
 
-
-#setup slack
+#setup flask app
 app = Flask(__name__)
 
 # logs
@@ -44,7 +40,6 @@ def db_connect():
             print('Ping was successful ... connection closed')
 if __name__ == '__main__':
     db_connect()
-
 
 @app.route('/')
 def index():

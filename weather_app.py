@@ -1,101 +1,52 @@
 import requests
 import datetime as dt
-import tkinter as tk
-from tkinter import messagebox
 import json
 import random
 
+
+base_url = "https://api.openweathermap.org/data/2.5/weather?"
+api_key = "0060cf5abb2bfda0140d4fc62051bb9e"
 city_list = [
     "London",
+    "Paris",
+    "Tokyo",
     "New York",
-    "Paris",
-    "Tokyo",
     "Sydney",
-    "Rio de Janeiro",
-    "Moscow",
-    "Berlin",
-    "Rome",
-    "Dubai",
     "Beijing",
-    "Mumbai",
-    "Cairo",
-    "Istanbul",
-    "Rio de Janeiro",
-    "Toronto",
-    "Seoul",
-    "Bangkok",
-    "Singapore",
-    "Delhi",
-    "Amsterdam",
-    "Vienna",
-    "Hamburg",
-    "Osaka",
-    "Milan",
-    "Madrid",
-    "Barcelona",
-    "Lima",
-    "Buenos Aires",
-    "Lagos",
-    "Mexico City",
-    "Sao Paulo",
-    "Jakarta",
-    "Kuala Lumpur",
-    "Shanghai",
-    "Istanbul",
+    "Rome",
+    "Berlin",
     "Moscow",
-    "Rio de Janeiro",
-    "Tokyo",
-    "Paris",
-    "Prague",
-    "Brno"
+    "Madrid"
 ]
+city = random.choice(city_list)
 
-#create main screen for app
-root = tk.Tk()
-root.title("Weather App for DevOps testing")
+def temp_kelvin_to_celsium(kelvin):
+    celsium = kelvin - 273.15
+    fahrenheit = celsium * 9/5 + 32
+    return celsium, fahrenheit
 
-# full configuation below:
-# labels and fields
-city_label = tk.Label(root, text="City")
-city_label.pack()
-city_entry = tk.Entry(root)
-city_entry.pack()
+url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 
-# button for fetching data
+response = requests.get(url).json()
 
-fetch_button = tk.Button(root, text="Fetch Weather")
-fetch_button.pack()
 
-# Create a label to display weather information
-weather_label = tk.Label(root)
-weather_label.pack()
 
-# Define the function to fetch weather data
-def fetch_weather():
-    city = city_entry.get()
-    if city.strip() == "":
-        city = random.choice(city_list)
-    # Add your API key here
-    api_key = "0060cf5abb2bfda0140d4fc62051bb9e"
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            temperature_kelvin = data["main"]["temp"]
-            temperature_celsius = temperature_kelvin - 273.15
-            weather = data["weather"][0]["description"]
-            weather_label.config(text=f"Temperature: {temperature_celsius:.2f}°C\nWeather: {weather.capitalize()}")
-        elif response.status_code == 401:
-            messagebox.showerror("Error", "Unauthorized: Check your API key.")
-        else:
-            messagebox.showerror("Error", f"City not found. Status code: {response.status_code}")   
-    
-    except Exception as e:
-        messagebox.showerror("Error", "Unable to fetch weather data")
+temp_kelvin = (response["main"]["temp"])
+temp_celsium, temp_fahrenheit = temp_kelvin_to_celsium(temp_kelvin)
+maybe_like_kelvin = response["main"]["feels_like"]
+maybe_like_celsium, maybe_like_fahrenheit = temp_kelvin_to_celsium(maybe_like_kelvin)
+wind_speed = response["wind"]["speed"]
+humidity = response["main"]["humidity"]
+description = response["weather"][0]["description"]
+sunrise_time = dt.datetime.utcfromtimestamp(response["sys"]["sunrise"] + response["timezone"])
+sunset_time = dt.datetime.utcfromtimestamp(response["sys"]["sunset"] + response["timezone"])
 
-fetch_button.config(command=fetch_weather)
-
-# Start the GUI main loop
-root.mainloop()
+print(f"Name of the city: {city}")
+print(f"Description in {city}: {description}")
+print(f"Temperature in {city}: {temp_celsium:.2f}°C or {temp_fahrenheit:.2f}°F")
+print(f"Temperature in {city} feels like: {maybe_like_celsium:.2f}°C or {maybe_like_fahrenheit:.2f}°F")
+print(f"General weather in {city}: {description}")
+print(f"Sunrise in {city}: {sunrise_time} local time")
+print(f"Sunset in {city}: {sunset_time} local time")
+print(f"Wind speed in {city}: {wind_speed} m/s")
+print(f"Humidity in {city}: {humidity}%")

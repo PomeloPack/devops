@@ -1,4 +1,4 @@
 FROM python
-WORKDIR /devops/weather_app-image/weather_app_for_docker.py
-COPY . /devops/weather_app-image/weather_app_for_docker.py
+WORKDIR /weather_app_for_docker.py
+COPY . /weather_app_for_docker.py
 CMD ["python3, weather_app_for_docker"]

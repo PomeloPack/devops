@@ -1,7 +1,7 @@
 git status - for status
 
 git add:
-    git add <file>  # Stage a specific file
+    git add <file>  # Stage a secific file
     git add .     # Stage all changes
 
 git commit :

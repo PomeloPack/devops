@@ -30,12 +30,24 @@ Step 100 ) hope everythin will works fine :)
 ------------------------------------------------------------------------------------------------
 
 Step 1 ) Everything is done! All other and future needed dependencies will be installed during the project development.
+
 Step 2 ) On my Kali Mac I start using and learing commands via terminal ( on my working laptop I am using github desktop - because this HP is so loow)
+
 Step 3 ) BE is finished. This project isn't about hard coding or learing to code but about learing DevOps technologies and concepts.
+
 Step 4 ) we will discuss this topic at Tuesday with Radovan
+
 Step 5 ) WIP
+
 Step 6 ) WIP
+
 Step 7 ) Just working on it...
+
 Step 8 ) WIP
+
 Step 9 ) WIP
+
 Step 10 ) WIP
+
+Step 11 ) WIP
+S

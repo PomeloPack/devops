@@ -84,4 +84,16 @@ git tag - Create, list, delete, or verify tags:
     git tag -d <tag_name>   # Delete a tag
 
 
+if you want update main from different branch:
+
+# Step 1: Switch to the main branch
+git checkout main
+
+# Step 2: Merge changes from the docker branch into main
+git merge docker
+
+# Step 3: Push the changes to the remote main branch
+git push origin main
+
+
 

@@ -1,4 +1,6 @@
 FROM python
-WORKDIR /devops/weather_app-image/weather_app_for_docker.py
-COPY . /devops/weather_app-image/weather_app_for_docker.py
+WORKDIR /home/p0m3l0/Project/devops
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
 CMD ["python", "weather_app_for_docker.py"]

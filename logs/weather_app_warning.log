@@ -10,3 +10,21 @@
 2024-11-01 12:46:19,098 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2024-11-01 12:46:19,098 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2024-11-01 12:46:19,098 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 12:49:01,438 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 12:49:01,438 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 12:49:01,438 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 12:55:54,329 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 12:55:54,329 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 12:55:54,330 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 14:49:25,339 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 14:49:25,339 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 14:49:25,340 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 15:05:15,589 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 15:05:15,589 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 15:05:15,590 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 15:06:56,791 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 15:06:56,791 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 15:06:56,791 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-01 15:07:31,995 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-01 15:07:31,995 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-01 15:07:31,995 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

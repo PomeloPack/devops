@@ -1,0 +1,9 @@
+devops/
+│
+├── logger_configuration.py
+├── weather_app_for_docker.py
+├── Dockerfile
+└── logs/
+    ├── weather_app.log
+    ├── weather_app_warning.log
+    └── weather_app_error.log

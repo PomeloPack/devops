@@ -24,6 +24,8 @@ Step 10 ) Create a CI/CD pipeline to automate the deployment process
 
 Step 11 ) Try some pen test or any other test for security purposes
 
+Step 12 ) Add logging functions
+
 Step 100 ) hope everythin will works fine :)
 
 

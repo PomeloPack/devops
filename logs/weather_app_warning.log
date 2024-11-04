@@ -58,3 +58,18 @@
 2024-11-04 23:42:51,371 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2024-11-04 23:42:51,371 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2024-11-04 23:42:51,371 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:43:24,498 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:43:24,498 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:43:24,498 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:43:30,433 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:43:30,433 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:43:30,433 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:43:38,422 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:43:38,422 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:43:38,422 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:45:31,807 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:45:31,807 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:45:31,807 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:49:38,385 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:49:38,385 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:49:38,385 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

@@ -184,3 +184,25 @@
 2024-11-04 23:27:05,708 - WeatherApp - INFO - Weather data displayed successfully.
 2024-11-04 23:27:05,708 - WeatherApp - INFO - All processes completed successfully - Everything OK.
 2024-11-04 23:27:05,708 - WeatherApp - INFO - Script execution ended
+2024-11-04 23:34:28,758 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2024-11-04 23:34:28,758 - WeatherApp - INFO - Informational message: The application has started successfully.
+2024-11-04 23:34:28,758 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:34:28,759 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:34:28,759 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:34:28,759 - WeatherApp - INFO - Script execution started
+2024-11-04 23:34:28,759 - WeatherApp - INFO - Selected city: Berlin
+2024-11-04 23:34:28,870 - WeatherApp - INFO - API request successful.
+2024-11-04 23:34:28,871 - WeatherApp - INFO - Weather data displayed successfully.
+2024-11-04 23:34:28,872 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2024-11-04 23:34:28,872 - WeatherApp - INFO - Script execution ended
+2024-11-04 23:42:51,371 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2024-11-04 23:42:51,371 - WeatherApp - INFO - Informational message: The application has started successfully.
+2024-11-04 23:42:51,371 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2024-11-04 23:42:51,371 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2024-11-04 23:42:51,371 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2024-11-04 23:42:51,372 - WeatherApp - INFO - Script execution started
+2024-11-04 23:42:51,372 - WeatherApp - INFO - Selected city: Toronto
+2024-11-04 23:42:51,524 - WeatherApp - INFO - API request successful.
+2024-11-04 23:42:51,550 - WeatherApp - INFO - Weather data displayed successfully.
+2024-11-04 23:42:51,550 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2024-11-04 23:42:51,550 - WeatherApp - INFO - Script execution ended

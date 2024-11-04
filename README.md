@@ -53,4 +53,6 @@ Step 10 ) WIP
 
 Step 11 ) WIP
 
+Step 12 ) Logging are successfully added
+
 Step 100 ) WIP

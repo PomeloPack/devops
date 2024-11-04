@@ -1,4 +1,4 @@
-#!/home/p0m3l0/Project/devops/venv/bin/python3
+#!/home/p0m3l0/Project/devops/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

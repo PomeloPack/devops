@@ -30,3 +30,14 @@
 2024-11-01 12:46:19,203 - WeatherApp - INFO - Weather data displayed successfully.
 2024-11-01 12:46:19,203 - WeatherApp - INFO - All processes completed successfully - Everything OK.
 2024-11-01 12:46:19,203 - WeatherApp - INFO - Script execution ended
+2025-09-02 07:01:35,879 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-02 07:01:35,880 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-02 07:01:35,880 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-02 07:01:35,880 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-02 07:01:35,880 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-02 07:01:35,880 - WeatherApp - INFO - Script execution started
+2025-09-02 07:01:35,880 - WeatherApp - INFO - Selected city: Beijing
+2025-09-02 07:01:36,028 - WeatherApp - INFO - API request successful.
+2025-09-02 07:01:36,058 - WeatherApp - INFO - Weather data displayed successfully.
+2025-09-02 07:01:36,058 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2025-09-02 07:01:36,058 - WeatherApp - INFO - Script execution ended

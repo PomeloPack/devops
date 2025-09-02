@@ -1,0 +1,11 @@
+project/
+│
+├─ backend/
+│   ├─ weather.py      # původní logika
+│   └─ app.py          # Flask wrapper
+│
+├─ frontend/
+│   └─ index.html      # HTML + JS
+│
+├─ venv/
+└─ requirements.txt

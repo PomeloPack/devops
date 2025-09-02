@@ -1,0 +1,11 @@
+2025-09-02 07:12:44,422 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-02 07:12:44,423 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-02 07:12:44,423 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-02 07:12:44,423 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-02 07:12:44,423 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-02 07:12:44,423 - WeatherApp - INFO - Script execution started
+2025-09-02 07:12:44,423 - WeatherApp - INFO - Selected city: Cape Town
+2025-09-02 07:12:44,507 - WeatherApp - INFO - API request successful.
+2025-09-02 07:12:44,523 - WeatherApp - INFO - Weather data displayed successfully.
+2025-09-02 07:12:44,523 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2025-09-02 07:12:44,523 - WeatherApp - INFO - Script execution ended

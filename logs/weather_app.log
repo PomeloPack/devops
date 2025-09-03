@@ -108,3 +108,14 @@
 2025-09-03 08:18:43,754 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2025-09-03 08:18:43,755 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-09-03 08:18:43,755 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-03 11:17:09,042 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-03 11:17:09,043 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-03 11:17:09,043 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-03 11:17:09,043 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-03 11:17:09,043 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-03 11:17:09,043 - WeatherApp - INFO - Script execution started
+2025-09-03 11:17:09,043 - WeatherApp - INFO - Selected city: Nairobi
+2025-09-03 11:17:09,135 - WeatherApp - INFO - API request successful.
+2025-09-03 11:17:09,147 - WeatherApp - INFO - Weather data displayed successfully.
+2025-09-03 11:17:09,147 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2025-09-03 11:17:09,147 - WeatherApp - INFO - Script execution ended

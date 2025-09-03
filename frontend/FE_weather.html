@@ -57,7 +57,7 @@
     <script>
         async function fetchWeather() {
             try {
-                const response = await fetch('/weather'); // API endpoint tvého backendu
+                const response = await fetch('http://127.0.0.1:5500/weather'); // API endpoint tvého backendu
                 const data = await response.json();
 
                 document.getElementById('city').innerText = `City: ${data.city}`;

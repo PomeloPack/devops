@@ -7,5 +7,6 @@ project/
 ├─ frontend/
 │   └─ index.html      # HTML + JS
 │
+├─ logs/
 ├─ venv/
 └─ requirements.txt

@@ -2,8 +2,9 @@ import logging
 import os
 
 # Define the base directory for logs
-base_dir = os.path.dirname(os.path.abspath(__file__))  # Gets the directory where the current script is located
-log_directory = os.path.join(base_dir, 'logs')  # Define the logs directory path within devops
+base_dir = os.path.dirname(os.path.abspath(__file__))  # backend/
+parent_dir = os.path.dirname(base_dir)                 # project/
+log_directory = os.path.join(parent_dir, 'logs')
 
 # Create a logs directory if it doesn't exist
 if not os.path.exists(log_directory):

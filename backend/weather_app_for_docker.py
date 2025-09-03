@@ -20,9 +20,9 @@ def fetch_weather_data(city):
 def display_weather_info(response, city):
     try:
         temp_kelvin = response["main"]["temp"]
-        temp_celsium, temp_fahrenheit = temp_kelvin_to_celsium(temp_kelvin)
+        temp_celsius, temp_fahrenheit = temp_kelvin_to_celsius(temp_kelvin)
         feeling_like_kelvin = response["main"]["feels_like"]
-        feeling_like_celsium, feeling_like_fahrenheit = temp_kelvin_to_celsium(feeling_like_kelvin)
+        feeling_like_celsius, feeling_like_fahrenheit = temp_kelvin_to_celsius(feeling_like_kelvin)
         wind_speed = response["wind"]["speed"]
         humidity = response["main"]["humidity"]
         description = response["weather"][0]["description"]
@@ -36,8 +36,8 @@ def display_weather_info(response, city):
 
         print(f"Name of the city: {city}")
         print(f"Current time in {city}: {current_time_in_city} local time")
-        print(f"Temperature in {city}: {temp_celsium:.2f}°C or {temp_fahrenheit:.2f}°F")
-        print(f"Temperature in {city} feels like: {feeling_like_celsium:.2f}°C or {feeling_like_fahrenheit:.2f}°F")
+        print(f"Temperature in {city}: {temp_celsius:.2f}°C or {temp_fahrenheit:.2f}°F")
+        print(f"Temperature in {city} feels like: {feeling_like_celsius:.2f}°C or {feeling_like_fahrenheit:.2f}°F")
         print(f"General weather in {city}: {description}")
         print(f"Sunrise in {city}: {sunrise_time} local time")
         print(f"Sunset in {city}: {sunset_time} local time")
@@ -85,10 +85,10 @@ city_timezones = {
     "Nairobi": "Africa/Nairobi", "Cape Town": "Africa/Johannesburg"
 }
 
-def temp_kelvin_to_celsium(kelvin):
-    celsium = kelvin - 273.15
-    fahrenheit = celsium * 9/5 + 32
-    return celsium, fahrenheit
+def temp_kelvin_to_celsius(kelvin):
+    celsius = kelvin - 273.15
+    fahrenheit = celsius * 9/5 + 32
+    return celsius, fahrenheit
 
 if __name__ == "__main__":
     main()

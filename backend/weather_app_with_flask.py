@@ -3,7 +3,7 @@ import requests
 import datetime as dt
 import random
 import pytz
-import backend.logger_configuration as logger_configuration
+import logger_configuration
 
 logger = logger_configuration.logger
 
@@ -29,19 +29,20 @@ city_timezones = {
     "Nairobi": "Africa/Nairobi", "Cape Town": "Africa/Johannesburg"
 }
 
-def temp_kelvin_to_celsium(kelvin):
-    celsium = kelvin - 273.15
-    fahrenheit = celsium * 9/5 + 32
-    return celsium, fahrenheit
+def temp_kelvin_to_celsius(kelvin):
+    celsius = kelvin - 273.15
+    fahrenheit = celsius * 9/5 + 32
+    return round(celsius, 2), round(fahrenheit, 2)
 
 def fetch_weather_data(city):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     try:
-        response = requests.get(url).json()
-        logger.info("API request successful.")
-        return response
+        response = requests.get(url)
+        response.raise_for_status()  # vyhodí HTTPError, pokud status != 200
+        logger.info("API request successful for city: %s", city)
+        return response.json()
     except Exception as e:
-        logger.error("Failed to make API request: %s", e)
+        logger.error("Failed to make API request for city %s: %s", city, e)
         return None
 
 def get_weather_for_city(city):
@@ -52,9 +53,9 @@ def get_weather_for_city(city):
 
     try:
         temp_kelvin = response["main"]["temp"]
-        temp_c, temp_f = temp_kelvin_to_celsium(temp_kelvin)
+        temp_c, temp_f = temp_kelvin_to_celsius(temp_kelvin)
         feels_kelvin = response["main"]["feels_like"]
-        feels_c, feels_f = temp_kelvin_to_celsium(feels_kelvin)
+        feels_c, feels_f = temp_kelvin_to_celsius(feels_kelvin)
         wind_speed = response["wind"]["speed"]
         humidity = response["main"]["humidity"]
         description = response["weather"][0]["description"]
@@ -70,12 +71,16 @@ def get_weather_for_city(city):
             "description": description
         }
     except KeyError as e:
-        logger.error("Failed to retrieve data from response: %s", e)
+        logger.error("Failed to retrieve data from response for city %s: %s", city, e)
         return None
 
+# Upravený endpoint, který přijímá parametr city
 @app.route("/weather")
 def weather_endpoint():
-    city = random.choice(city_list)
+    city = request.args.get("city")  # získat city z query param
+    if not city:
+        city = random.choice(city_list)  # fallback, pokud není parametr zadán
+
     data = get_weather_for_city(city)
     if data:
         return jsonify(data)
@@ -83,4 +88,4 @@ def weather_endpoint():
         return jsonify({"error": "Failed to fetch weather data"}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 pro tvůj server

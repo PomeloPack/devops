@@ -2,7 +2,7 @@ import requests
 import datetime as dt
 import random
 import pytz
-import logger_configuration
+import backend.logger_configuration as logger_configuration
 
 # Import logger from logger_configuration
 logger = logger_configuration.logger

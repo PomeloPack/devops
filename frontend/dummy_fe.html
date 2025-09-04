@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        body { font-family: Arial; background:#f0f4f8; display:flex; flex-direction:column; align-items:center; padding:50px; }
+        .weather-card { background:#fff; padding:20px 30px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-width:400px; text-align:center; }
+        h2 { margin-top:0; }
+        .info { margin:5px 0; }
+        button { margin-top:15px; padding:10px 20px; border:none; background:#007bff; color:white; border-radius:6px; cursor:pointer; }
+        button:hover { background:#0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="weather-card" id="weatherCard">
+    <h2>Weather Dashboard</h2>
+    <p class="info" id="city">City: –</p>
+    <p class="info" id="temp">Temperature: –</p>
+    <p class="info" id="desc">Description: –</p>
+    <p class="info" id="feels">Feels like: –</p>
+    <p class="info" id="wind">Wind: –</p>
+    <p class="info" id="humidity">Humidity: –</p>
+    <button onclick="fetchWeather()">Get Weather</button>
+</div>
+
+<script>
+    async function fetchWeather() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/weather'); // backend vybere náhodné město
+            const data = await response.json();
+
+            document.getElementById('city').innerText = `City: ${data.city}`;
+            document.getElementById('temp').innerText = `Temperature: ${data.temp_c}°C / ${data.temp_f}°F`;
+            document.getElementById('desc').innerText = `Description: ${data.description}`;
+            document.getElementById('feels').innerText = `Feels like: ${data.feels_c}°C / ${data.feels_f}°F`;
+            document.getElementById('wind').innerText = `Wind: ${data.wind} m/s`;
+            document.getElementById('humidity').innerText = `Humidity: ${data.humidity}%`;
+
+        } catch (error) {
+            console.error("Failed to fetch weather:", error);
+            alert("Failed to fetch weather. Make sure the backend is running.");
+        }
+    }
+</script>
+
+</body>
+</html>

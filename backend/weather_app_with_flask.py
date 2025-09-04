@@ -88,4 +88,4 @@ def weather_endpoint():
         return jsonify({"error": "Failed to fetch weather data"}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 pro tvůj server
+    app.run(host="127.0.0.1", port=5500, debug=True)  # port 5500 pro tvůj server

@@ -51,28 +51,17 @@
         <p class="info" id="feels">Feels like: –</p>
         <p class="info" id="wind">Wind: –</p>
         <p class="info" id="humidity">Humidity: –</p>
-        <button type="button" id="fetchButton">Get Weather</button>
+        <button type="button" onclick="fetchWeather()">Get Weather</button>
+       <!-- <button onclick="fetchWeather()">Get Weather</button>  tohle je starsi verze tlacitka   -->
     </div>
 
+
     <script>
-        const button = document.getElementById('fetchButton');
-
-        button.addEventListener('click', async (event) => {
-            event.preventDefault(); // zablokuje reload stránky
-            console.debug("Fetch button clicked"); // debug log
-
+        async function fetchWeather() {
             try {
-                const response = await fetch('http://127.0.0.1:5500/weather');
-                console.debug("Response received:", response);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
+                const response = await fetch('http://127.0.0.1:5500/weather'); // API endpoint tvého backendu
                 const data = await response.json();
-                console.debug("Data parsed:", data);
 
-                // Aktualizace DOM
                 document.getElementById('city').innerText = `City: ${data.city}`;
                 document.getElementById('temp').innerText = `Temperature: ${data.temp_c}°C / ${data.temp_f}°F`;
                 document.getElementById('desc').innerText = `Description: ${data.description}`;
@@ -84,7 +73,7 @@
                 console.error("Failed to fetch weather:", error);
                 alert("Failed to fetch weather. Make sure the backend is running.");
             }
-        });
+        }
     </script>
 
 </body>

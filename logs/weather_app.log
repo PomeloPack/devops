@@ -308,3 +308,40 @@
 2025-09-29 10:16:41,578 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2025-09-29 10:16:41,578 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-09-29 10:16:41,578 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:26:25,186 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-29 10:26:25,186 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-29 10:26:25,186 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-29 10:26:25,186 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-29 10:26:25,187 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:26:25,187 - WeatherApp - INFO - Script execution started
+2025-09-29 10:26:25,187 - WeatherApp - INFO - Selected city: Sydney
+2025-09-29 10:26:25,250 - WeatherApp - INFO - API request successful.
+2025-09-29 10:26:25,264 - WeatherApp - INFO - Weather data displayed successfully.
+2025-09-29 10:26:25,264 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2025-09-29 10:26:25,264 - WeatherApp - INFO - Script execution ended
+2025-09-29 10:26:33,785 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-29 10:26:33,786 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-29 10:26:33,786 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-29 10:26:33,786 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-29 10:26:33,786 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:26:33,912 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-29 10:26:33,912 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-29 10:26:33,912 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-29 10:26:33,912 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-29 10:26:33,912 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:26:35,233 - WeatherApp - INFO - API request successful for city: Prague
+2025-09-29 10:39:28,420 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-29 10:39:28,420 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-29 10:39:28,420 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-29 10:39:28,420 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-29 10:39:28,421 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:39:28,550 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-09-29 10:39:28,550 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-09-29 10:39:28,551 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-09-29 10:39:28,551 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-09-29 10:39:28,551 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-09-29 10:39:35,200 - WeatherApp - INFO - API request successful for city: Cairo
+2025-09-29 10:39:37,413 - WeatherApp - INFO - API request successful for city: Beijing
+2025-09-29 10:39:38,840 - WeatherApp - INFO - API request successful for city: Melbourne
+2025-09-29 10:39:40,006 - WeatherApp - INFO - API request successful for city: Mumbai
+2025-09-29 10:39:41,725 - WeatherApp - INFO - API request successful for city: Melbourne

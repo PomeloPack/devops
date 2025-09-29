@@ -4,10 +4,12 @@ import datetime as dt
 import random
 import pytz
 import logger_configuration
+from flask_cors import CORS
 
 logger = logger_configuration.logger
 
 app = Flask(__name__)
+CORS(app)
 
 # Weather App Logic
 api_key = "0060cf5abb2bfda0140d4fc62051bb9e"

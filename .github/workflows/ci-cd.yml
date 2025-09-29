@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Build frontend
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Build frontend
+        run: |
+          cd frontend   # změň, pokud se složka jmenuje jinak
+          npm install
+          npm run build
+
+      # Build backend artefakt
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Build backend artifact
+        run: |
+          cd backend   # změň, pokud se složka jmenuje jinak
+          pip install -r requirements.txt || echo "No requirements.txt, pokračuji"
+          zip -r backend-artifact.zip .
+
+      # Upload backend artifact
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-artifact
+          path: backend/backend-artifact.zip

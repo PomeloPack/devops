@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
       - name: Build frontend
         run: |
-          cd frontend   # změň, pokud se složka jmenuje jinak
+          cd /Users/martinholomek/github/GitHub/devops/frontend
           npm install
           npm run build
 
@@ -30,7 +30,7 @@ jobs:
           python-version: '3.11'
       - name: Build backend artifact
         run: |
-          cd backend   # změň, pokud se složka jmenuje jinak
+          cd /Users/martinholomek/github/GitHub/devops/backend
           pip install -r requirements.txt || echo "No requirements.txt, pokračuji"
           zip -r backend-artifact.zip .
 

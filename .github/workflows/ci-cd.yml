@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
       - name: Build frontend
         run: |
-          cd /Users/martinholomek/github/GitHub/devops/frontend
+          cd frontend
           npm install
           npm run build
 

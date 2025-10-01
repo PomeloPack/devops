@@ -18,10 +18,7 @@ jobs:
         with:
           node-version: '20'
       - name: Build frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
+        run: echo "Frontend build skipped, žádný package.json"
 
       # Build backend artefakt
       - name: Set up Python

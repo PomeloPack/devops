@@ -25,6 +25,8 @@ class WeatherLog(db.Model):
     temp_c = db.Column(db.Float)
     temp_f = db.Column(db.Float)
     description = db.Column(db.String(100))
+    wind_speed = db.Column(db.String(100))
+    humidity = db.Column(db.String(100))
     timestamp = db.Column(db.DateTime, default=dt.datetime.utcnow)
 
 # create a table if not exist
@@ -83,7 +85,7 @@ def get_weather_for_city(city):
         description = response["weather"][0]["description"]
 
         # save to db
-        log = WeatherLog(city=city, temp_c=temp_c, temp_f=temp_f, description=description)
+        log = WeatherLog(city=city, temp_c=temp_c, temp_f=temp_f, wind_speed=wind_speed, humidity=humidity, description=description)
         db.session.add(log)
         db.session.commit()
 

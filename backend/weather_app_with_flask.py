@@ -6,6 +6,7 @@ import pytz
 import logger_configuration
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 
 logger = logger_configuration.logger
 
@@ -18,8 +19,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# utc to cest for saving time into db in czech timezone
+local_tz = pytz.timezone('Europe/Prague')
+timestmp_local = dt.datetime.now(local_tz)
+
 # table weather log
-class WeatherLog(db.Model):
+class WeatherAppDb(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     city = db.Column(db.String(100), nullable=False)
     temp_c = db.Column(db.Float)
@@ -27,7 +32,7 @@ class WeatherLog(db.Model):
     description = db.Column(db.String(100))
     wind_speed = db.Column(db.String(100))
     humidity = db.Column(db.String(100))
-    timestamp = db.Column(db.DateTime, default=dt.datetime.utcnow)
+    timestamp = db.Column(db.DateTime(timezone=True), server_dafault=func.now())
 
 # create a table if not exist
 with app.app_context():
@@ -85,7 +90,15 @@ def get_weather_for_city(city):
         description = response["weather"][0]["description"]
 
         # save to db
-        log = WeatherLog(city=city, temp_c=temp_c, temp_f=temp_f, wind_speed=wind_speed, humidity=humidity, description=description)
+        log = WeatherAppDb(
+            city=city,
+            temp_c=temp_c,
+            temp_f=temp_f,
+            wind_speed=str(wind_speed),
+            humidity=str(humidity),
+            description=description,
+            timestamp=timestmp_local
+        )
         db.session.add(log)
         db.session.commit()
 
@@ -101,6 +114,10 @@ def get_weather_for_city(city):
         }
     except KeyError as e:
         logger.error("Failed to retrieve data from response for city %s: %s", city, e)
+        return None
+    except Exception as e:
+        db.session.rollback()
+        logger.error('Failed to save to DB: %s', e)
         return None
 
 # Upravený endpoint, který přijímá parametr city

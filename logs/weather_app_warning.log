@@ -544,3 +544,43 @@
 2025-10-20 12:07:21,812 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2025-10-20 12:07:21,812 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 12:07:21,812 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 13:07:12,959 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 13:07:12,959 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 13:07:12,959 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 13:07:13,380 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 13:07:13,380 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 13:07:13,380 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:12,695 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 14:59:12,695 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:12,695 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:13,150 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 14:59:13,150 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:13,150 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:22,804 - WeatherApp - ERROR - Failed to save to DB: (psycopg2.errors.UndefinedColumn) column "feels_c" of relation "weather_app_db" does not exist
+LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
+                                                          ^
+
+[SQL: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, feels_f, description, wind_speed, humidity, sunrise, sunset, local_time_city, local_time_czech) VALUES (%(city)s, %(temp_c)s, %(temp_f)s, %(feels_c)s, %(feels_f)s, %(description)s, %(wind_speed)s, %(humidity)s, %(sunrise)s, %(sunset)s, %(local_time_city)s, %(local_time_czech)s) RETURNING weather_app_db.id, weather_app_db.timestamp]
+[parameters: {'city': 'Sydney', 'temp_c': 19.28, 'temp_f': 66.7, 'feels_c': 19.3, 'feels_f': 66.74, 'description': 'overcast clouds', 'wind_speed': '8.75', 'humidity': '78', 'sunrise': datetime.datetime(2025, 10, 20, 6, 7, 53, tzinfo=datetime.timezone.utc), 'sunset': datetime.datetime(2025, 10, 20, 19, 11, 50, tzinfo=datetime.timezone.utc), 'local_time_city': '23:59:22', 'local_time_czech': '14:59:22'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-10-20 14:59:58,247 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 14:59:58,247 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:58,247 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:00:09,608 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:00:09,608 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:00:09,608 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:00:09,916 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:00:09,916 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:00:09,916 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:03:03,916 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:03:03,916 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:03:03,916 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:03:04,205 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:03:04,205 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:03:04,205 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:09:05,541 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:09:05,541 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:09:05,541 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:09:05,845 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:09:05,845 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:09:05,845 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

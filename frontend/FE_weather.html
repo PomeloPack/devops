@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f0f4f8;
+            background: #eef3f7;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15,26 +15,35 @@
         }
         .weather-card {
             background: #fff;
-            padding: 20px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 400px;
+            padding: 25px 30px;
+            border-radius: 14px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+            max-width: 420px;
             text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        .weather-card:hover {
+            transform: scale(1.02);
         }
         h2 {
             margin-top: 0;
+            margin-bottom: 15px;
+            color: #007bff;
         }
         .info {
-            margin: 5px 0;
+            margin: 6px 0;
+            font-size: 1rem;
+            color: #333;
         }
         button {
-            margin-top: 15px;
-            padding: 10px 20px;
+            margin-top: 20px;
+            padding: 10px 25px;
             border: none;
             background: #007bff;
             color: white;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 1rem;
         }
         button:hover {
             background: #0056b3;
@@ -44,22 +53,28 @@
 <body>
 
     <div class="weather-card" id="weatherCard">
-        <h2>Weather Dashboard</h2>
-        <p class="info" id="city">City: –</p>
-        <p class="info" id="temp">Temperature: –</p>
-        <p class="info" id="desc">Description: –</p>
-        <p class="info" id="feels">Feels like: –</p>
-        <p class="info" id="wind">Wind: –</p>
-        <p class="info" id="humidity">Humidity: –</p>
-        <button type="button" id="fetchButton">Get Weather</button>
-    </div>
+    <h2>Weather Dashboard</h2>
+    <p class="info" id="city">City: –</p>
+    <p class="info" id="localTimeCity">Local time in city: –</p>
+    <p class="info" id="localTimeCzech">Time in Czech Republic: –</p>
+    <p class="info" id="tempC">Temperature (°C): –</p>
+    <p class="info" id="tempF">Temperature (°F): –</p>
+    <p class="info" id="feelsC">Feels like (°C): –</p>
+    <p class="info" id="feelsF">Feels like (°F): –</p>
+    <p class="info" id="desc">Description: –</p>
+    <p class="info" id="sunrise">Sunrise: –</p>
+    <p class="info" id="sunset">Sunset: –</p>
+    <p class="info" id="wind">Wind speed: –</p>
+    <p class="info" id="humidity">Humidity: –</p>
+    <button type="button" id="fetchButton">Get Weather</button>
+</div>
 
     <script>
         const button = document.getElementById('fetchButton');
 
         button.addEventListener('click', async (event) => {
-            event.preventDefault(); // zablokuje reload stránky
-            console.debug("Fetch button clicked"); // debug log
+            event.preventDefault();
+            console.debug("Fetch button clicked");
 
             try {
                 const response = await fetch('http://127.0.0.1:5500/weather');
@@ -72,13 +87,18 @@
                 const data = await response.json();
                 console.debug("Data parsed:", data);
 
-                // Aktualizace DOM
-                document.getElementById('city').innerText = `City: ${data.city}`;
-                document.getElementById('temp').innerText = `Temperature: ${data.temp_c}°C / ${data.temp_f}°F`;
-                document.getElementById('desc').innerText = `Description: ${data.description}`;
-                document.getElementById('feels').innerText = `Feels like: ${data.feels_c}°C / ${data.feels_f}°F`;
-                document.getElementById('wind').innerText = `Wind: ${data.wind} m/s`;
-                document.getElementById('humidity').innerText = `Humidity: ${data.humidity}%`;
+                document.getElementById('city').textContent = `City: ${data.city}`;
+                document.getElementById('localTimeCity').textContent = `Local time in city: ${data.local_time_city}`;
+                document.getElementById('localTimeCzech').textContent = `Time in Czech Republic: ${data.local_time_czech}`;
+                document.getElementById('tempC').textContent = `Temperature (°C): ${data.temp_c}`;
+                document.getElementById('tempF').textContent = `Temperature (°F): ${data.temp_f}`;
+                document.getElementById('feelsC').textContent = `Feels like (°C): ${data.feels_c}`;
+                document.getElementById('feelsF').textContent = `Feels like (°F): ${data.feels_f}`;
+                document.getElementById('desc').textContent = `Description: ${data.description}`;
+                document.getElementById('sunrise').textContent = `Sunrise: ${data.sunrise}`;
+                document.getElementById('sunset').textContent = `Sunset: ${data.sunset}`;
+                document.getElementById('wind').textContent = `Wind speed: ${data.wind_speed} m/s`;
+                document.getElementById('humidity').textContent = `Humidity: ${data.humidity} %`;
 
             } catch (error) {
                 console.error("Failed to fetch weather:", error);

@@ -5,11 +5,31 @@ import random
 import pytz
 import logger_configuration
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
 logger = logger_configuration.logger
 
 app = Flask(__name__)
 CORS(app)
+
+# postgre. config
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# table weather log
+class WeatherLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(100), nullable=False)
+    temp_c = db.Column(db.Float)
+    temp_f = db.Column(db.Float)
+    description = db.Column(db.String(100))
+    timestamp = db.Column(db.DateTime, default=dt.datetime.utcnow)
+
+# create a table if not exist
+with app.app_context():
+    db.create_all()
 
 # Weather App Logic
 api_key = "0060cf5abb2bfda0140d4fc62051bb9e"
@@ -61,6 +81,11 @@ def get_weather_for_city(city):
         wind_speed = response["wind"]["speed"]
         humidity = response["main"]["humidity"]
         description = response["weather"][0]["description"]
+
+        # save to db
+        log = WeatherLog(city=city, temp_c=temp_c, temp_f=temp_f, description=description)
+        db.session.add(log)
+        db.session.commit()
 
         return {
             "city": city,

@@ -1,0 +1,18 @@
+          +----------------+
+          |    Flask App   |
+          | (Python Code)  |
+          +--------+-------+
+                   |
+                   | SQL Queries / ORM Calls
+                   v
+          +----------------+
+          |  PostgreSQL DB |
+          | (Data Storage) |
+          +--------+-------+
+                   ^
+                   | Results / Data
+                   |
+          +--------+-------+
+          |    DBeaver     |
+          | (DB Management)|
+          +----------------+

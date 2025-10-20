@@ -1179,3 +1179,14 @@ LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
 2025-10-20 15:09:05,845 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 15:09:05,845 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
 2025-10-20 15:09:11,696 - WeatherApp - INFO - API request successful for city: Beijing
+2025-10-20 15:38:58,473 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 15:38:58,473 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 15:38:58,473 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:38:58,473 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:38:58,473 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:38:58,836 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 15:38:58,836 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 15:38:58,836 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:38:58,836 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:38:58,836 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:39:04,493 - WeatherApp - INFO - API request successful for city: Paris

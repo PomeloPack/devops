@@ -55,16 +55,16 @@
     <div class="weather-card" id="weatherCard">
     <h2>Weather Dashboard</h2>
     <p class="info" id="city">City: –</p>
-    <p class="info" id="localTimeCity">Local time in city: –</p>
-    <p class="info" id="localTimeCzech">Time in Czech Republic: –</p>
-    <p class="info" id="tempC">Temperature (°C): –</p>
-    <p class="info" id="tempF">Temperature (°F): –</p>
-    <p class="info" id="feelsC">Feels like (°C): –</p>
-    <p class="info" id="feelsF">Feels like (°F): –</p>
-    <p class="info" id="desc">Description: –</p>
+    <p class="info" id="local_time_city">Local time in city: –</p>
+    <p class="info" id="local_time_czech">Time in Czech Republic: –</p>
+    <p class="info" id="temp_c">Temperature (°C): –</p>
+    <p class="info" id="temp_f">Temperature (°F): –</p>
+    <p class="info" id="feels_c">Feels like (°C): –</p>
+    <p class="info" id="feels_f">Feels like (°F): –</p>
+    <p class="info" id="description">Description: –</p>
     <p class="info" id="sunrise">Sunrise: –</p>
     <p class="info" id="sunset">Sunset: –</p>
-    <p class="info" id="wind">Wind speed: –</p>
+    <p class="info" id="wind_speed">Wind speed: –</p>
     <p class="info" id="humidity">Humidity: –</p>
     <button type="button" id="fetchButton">Get Weather</button>
 </div>
@@ -88,16 +88,16 @@
                 console.debug("Data parsed:", data);
 
                 document.getElementById('city').textContent = `City: ${data.city}`;
-                document.getElementById('localTimeCity').textContent = `Local time in city: ${data.local_time_city}`;
-                document.getElementById('localTimeCzech').textContent = `Time in Czech Republic: ${data.local_time_czech}`;
-                document.getElementById('tempC').textContent = `Temperature (°C): ${data.temp_c}`;
-                document.getElementById('tempF').textContent = `Temperature (°F): ${data.temp_f}`;
-                document.getElementById('feelsC').textContent = `Feels like (°C): ${data.feels_c}`;
-                document.getElementById('feelsF').textContent = `Feels like (°F): ${data.feels_f}`;
-                document.getElementById('desc').textContent = `Description: ${data.description}`;
+                document.getElementById('local_time_city').textContent = `Local time in city: ${data.local_time_city}`;
+                document.getElementById('local_time_czech').textContent = `Time in Czech Republic: ${data.local_time_czech}`;
+                document.getElementById('temp_c').textContent = `Temperature (°C): ${data.temp_c}`;
+                document.getElementById('temp_f').textContent = `Temperature (°F): ${data.temp_f}`;
+                document.getElementById('feels_c').textContent = `Feels like (°C): ${data.feels_c}`;
+                document.getElementById('feels_f').textContent = `Feels like (°F): ${data.feels_f}`;
+                document.getElementById('description').textContent = `Description: ${data.description}`;
                 document.getElementById('sunrise').textContent = `Sunrise: ${data.sunrise}`;
                 document.getElementById('sunset').textContent = `Sunset: ${data.sunset}`;
-                document.getElementById('wind').textContent = `Wind speed: ${data.wind_speed} m/s`;
+                document.getElementById('wind_speed').textContent = `Wind speed: ${data.wind_speed} m/s`;
                 document.getElementById('humidity').textContent = `Humidity: ${data.humidity} %`;
 
             } catch (error) {

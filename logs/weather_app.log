@@ -1078,3 +1078,35 @@
 2025-10-20 11:58:24,286 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2025-10-20 11:58:24,286 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 11:58:24,286 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:05:47,336 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 12:05:47,337 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 12:05:47,337 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 12:05:47,337 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:05:47,337 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:06:10,326 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 12:06:10,326 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 12:06:10,326 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 12:06:10,326 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:06:10,326 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:06:10,579 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 12:06:10,579 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 12:06:10,579 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 12:06:10,579 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:06:10,579 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:06:18,157 - WeatherApp - INFO - API request successful for city: Cape Town
+2025-10-20 12:06:45,816 - WeatherApp - INFO - API request successful for city: London
+2025-10-20 12:06:46,280 - WeatherApp - INFO - API request successful for city: Mumbai
+2025-10-20 12:06:46,631 - WeatherApp - INFO - API request successful for city: Mexico City
+2025-10-20 12:06:46,947 - WeatherApp - INFO - API request successful for city: Bangkok
+2025-10-20 12:06:47,298 - WeatherApp - INFO - API request successful for city: Auckland
+2025-10-20 12:07:21,812 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 12:07:21,812 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 12:07:21,812 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 12:07:21,812 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:07:21,812 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:07:21,812 - WeatherApp - INFO - Script execution started
+2025-10-20 12:07:21,812 - WeatherApp - INFO - Selected city: Singapore
+2025-10-20 12:07:21,869 - WeatherApp - INFO - API request successful.
+2025-10-20 12:07:21,881 - WeatherApp - INFO - Weather data displayed successfully.
+2025-10-20 12:07:21,881 - WeatherApp - INFO - All processes completed successfully - Everything OK.
+2025-10-20 12:07:21,881 - WeatherApp - INFO - Script execution ended

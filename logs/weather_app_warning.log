@@ -590,3 +590,15 @@ LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
 2025-10-20 15:38:58,836 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
 2025-10-20 15:38:58,836 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 15:38:58,836 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:40:56,446 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:40:56,446 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,446 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:40:56,760 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:40:56,760 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,760 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:36,809 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-21 10:20:36,809 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:36,809 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:37,223 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-21 10:20:37,223 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:37,223 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

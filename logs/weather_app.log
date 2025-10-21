@@ -1190,3 +1190,46 @@ LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
 2025-10-20 15:38:58,836 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 15:38:58,836 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
 2025-10-20 15:39:04,493 - WeatherApp - INFO - API request successful for city: Paris
+2025-10-20 15:40:56,446 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 15:40:56,446 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 15:40:56,446 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:40:56,446 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,446 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:40:56,760 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-20 15:40:56,760 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-20 15:40:56,760 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-20 15:40:56,760 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,760 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:41:09,214 - WeatherApp - INFO - API request successful for city: Paris
+2025-10-20 15:41:24,003 - WeatherApp - INFO - API request successful for city: Mumbai
+2025-10-20 15:41:24,506 - WeatherApp - INFO - API request successful for city: Los Angeles
+2025-10-20 15:41:24,904 - WeatherApp - INFO - API request successful for city: Singapore
+2025-10-20 15:41:25,240 - WeatherApp - INFO - API request successful for city: Los Angeles
+2025-10-21 10:20:36,807 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-21 10:20:36,809 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-21 10:20:36,809 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-21 10:20:36,809 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:36,809 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:37,223 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-21 10:20:37,223 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-21 10:20:37,223 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-21 10:20:37,223 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:37,223 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:46,441 - WeatherApp - INFO - API request successful for city: Toronto
+2025-10-21 10:21:10,038 - WeatherApp - INFO - API request successful for city: Bangkok
+2025-10-21 10:21:18,466 - WeatherApp - INFO - API request successful for city: Paris
+2025-10-21 10:21:24,500 - WeatherApp - INFO - API request successful for city: New York
+2025-10-21 10:21:25,599 - WeatherApp - INFO - API request successful for city: Toronto
+2025-10-21 10:21:27,134 - WeatherApp - INFO - API request successful for city: Tokyo
+2025-10-21 10:21:28,573 - WeatherApp - INFO - API request successful for city: Bangkok
+2025-10-21 10:21:30,360 - WeatherApp - INFO - API request successful for city: Los Angeles
+2025-10-21 10:21:31,082 - WeatherApp - INFO - API request successful for city: Singapore
+2025-10-21 10:21:31,741 - WeatherApp - INFO - API request successful for city: Beijing
+2025-10-21 10:21:32,273 - WeatherApp - INFO - API request successful for city: Paris
+2025-10-21 10:21:32,946 - WeatherApp - INFO - API request successful for city: Prague
+2025-10-21 10:21:33,492 - WeatherApp - INFO - API request successful for city: Auckland
+2025-10-21 10:22:33,247 - WeatherApp - INFO - API request successful for city: Paris
+2025-10-21 10:22:34,116 - WeatherApp - INFO - API request successful for city: London
+2025-10-21 10:22:34,291 - WeatherApp - INFO - API request successful for city: Berlin
+2025-10-21 10:22:34,430 - WeatherApp - INFO - API request successful for city: New York
+2025-10-21 10:22:34,584 - WeatherApp - INFO - API request successful for city: Tokyo

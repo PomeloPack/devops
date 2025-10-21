@@ -13,7 +13,7 @@ logger = logger_configuration.logger
 app = Flask(__name__)
 CORS(app)
 
-# postgre. config
+# postgre config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

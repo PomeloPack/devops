@@ -1073,3 +1073,8 @@
 2025-10-20 11:53:49,815 - WeatherApp - INFO - API request successful for city: Mumbai
 2025-10-20 11:53:50,287 - WeatherApp - INFO - API request successful for city: Singapore
 2025-10-20 11:53:50,696 - WeatherApp - INFO - API request successful for city: Tokyo
+2025-10-23 15:02:46,338 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-23 15:02:46,338 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-23 15:02:46,338 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-23 15:02:46,338 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 15:02:46,338 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

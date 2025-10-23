@@ -410,3 +410,5 @@ LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
 2025-10-23 10:26:54,740 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
 2025-10-23 15:00:48,837 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-23 15:00:48,837 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-23 15:12:44,900 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 15:12:44,900 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

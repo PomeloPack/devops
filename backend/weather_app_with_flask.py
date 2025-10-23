@@ -13,7 +13,7 @@ logger = logger_configuration.logger
 app = Flask(__name__)
 CORS(app)
 
-# postgre. config
+# postgre config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -29,10 +29,16 @@ class WeatherAppDb(db.Model):
     city = db.Column(db.String(100), nullable=False)
     temp_c = db.Column(db.Float)
     temp_f = db.Column(db.Float)
+    feels_c = db.Column(db.Float)
+    feels_f = db.Column(db.Float)
     description = db.Column(db.String(100))
     wind_speed = db.Column(db.String(100))
     humidity = db.Column(db.String(100))
-    timestamp = db.Column(db.DateTime(timezone=True), server_dafault=func.now())
+    sunrise = db.Column(db.DateTime(timezone=True))
+    sunset = db.Column(db.DateTime(timezone=True))
+    local_time_city = db.Column(db.String(50))
+    local_time_czech = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
 # create a table if not exist
 with app.app_context():
@@ -89,15 +95,28 @@ def get_weather_for_city(city):
         humidity = response["main"]["humidity"]
         description = response["weather"][0]["description"]
 
+        sunrise = dt.datetime.fromtimestamp(response["sys"]["sunrise"] + response["timezone"], dt.timezone.utc)
+        sunset = dt.datetime.fromtimestamp(response["sys"]["sunset"] + response["timezone"], dt.timezone.utc)
+
+        city_tz = pytz.timezone(city_timezones[city])
+        czech_tz = pytz.timezone('Europe/Prague')
+        local_time_city = dt.datetime.now(city_tz).strftime('%H:%M:%S')
+        local_time_czech = dt.datetime.now(czech_tz).strftime('%H:%M:%S')
+
         # save to db
         log = WeatherAppDb(
             city=city,
             temp_c=temp_c,
             temp_f=temp_f,
+            feels_c=feels_c,
+            feels_f=feels_f,
+            description=description,
             wind_speed=str(wind_speed),
             humidity=str(humidity),
-            description=description,
-            timestamp=timestmp_local
+            sunrise=sunrise,
+            sunset=sunset,
+            local_time_city=local_time_city,
+            local_time_czech=local_time_czech,
         )
         db.session.add(log)
         db.session.commit()
@@ -108,10 +127,15 @@ def get_weather_for_city(city):
             "temp_f": temp_f,
             "feels_c": feels_c,
             "feels_f": feels_f,
-            "wind": wind_speed,
+            "wind_speed": wind_speed,
             "humidity": humidity,
-            "description": description
+            "description": description,
+            "sunrise": sunrise.strftime('%H:%M:%S'),
+            "sunset": sunset.strftime('%H:%M:%S'),
+            "local_time_city": local_time_city,
+            "local_time_czech": local_time_czech
         }
+    
     except KeyError as e:
         logger.error("Failed to retrieve data from response for city %s: %s", city, e)
         return None

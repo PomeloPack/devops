@@ -1250,3 +1250,8 @@ LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
 2025-10-23 10:28:02,799 - WeatherApp - INFO - API request successful for city: Madrid
 2025-10-23 10:28:03,090 - WeatherApp - INFO - API request successful for city: London
 2025-10-23 10:28:03,433 - WeatherApp - INFO - API request successful for city: Cape Town
+2025-10-23 15:00:48,837 - WeatherApp - DEBUG - Debugging information: This is a detailed trace of the application's behavior.
+2025-10-23 15:00:48,837 - WeatherApp - INFO - Informational message: The application has started successfully.
+2025-10-23 15:00:48,837 - WeatherApp - WARNING - Warning: The application is using a deprecated method.
+2025-10-23 15:00:48,837 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 15:00:48,837 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!

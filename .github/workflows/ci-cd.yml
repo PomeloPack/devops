@@ -9,30 +9,48 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Print working directory
+        run: pwd && ls -R
 
       # Build frontend
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Build frontend
-        run: echo "Frontend build skipped, žádný package.json"
 
-      # Build backend artefakt
+      - name: Build frontend
+        run: |
+          if [ -f frontend/package.json ]; then
+            cd frontend
+            npm install
+            npm run build
+          else
+            echo "Frontend build skipped, žádný package.json"
+          fi
+
+      # Build backend artifact
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
+
       - name: Build backend artifact
         run: |
-          cd /Users/martinholomek/github/GitHub/devops/backend
-          pip install -r requirements.txt || echo "No requirements.txt, pokračuji"
+          cd backend
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "No requirements.txt, pokračuji"
+          fi
           zip -r backend-artifact.zip .
 
       # Upload backend artifact
-      - name: Upload artifacts
+      - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-artifact

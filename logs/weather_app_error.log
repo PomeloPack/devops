@@ -353,5 +353,67 @@
 2025-10-20 11:53:30,287 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
 2025-10-20 11:53:30,558 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-20 11:53:30,558 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+<<<<<<< HEAD
 2025-10-23 15:02:46,338 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
 2025-10-23 15:02:46,338 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+=======
+2025-10-20 11:58:24,286 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 11:58:24,286 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:05:47,337 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:05:47,337 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:06:10,326 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:06:10,326 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:06:10,579 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:06:10,579 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 12:07:21,812 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 12:07:21,812 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 13:07:12,959 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 13:07:12,959 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 13:07:13,380 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 13:07:13,380 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:12,695 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:12,695 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:13,150 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:13,150 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 14:59:22,804 - WeatherApp - ERROR - Failed to save to DB: (psycopg2.errors.UndefinedColumn) column "feels_c" of relation "weather_app_db" does not exist
+LINE 1: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, f...
+                                                          ^
+
+[SQL: INSERT INTO weather_app_db (city, temp_c, temp_f, feels_c, feels_f, description, wind_speed, humidity, sunrise, sunset, local_time_city, local_time_czech) VALUES (%(city)s, %(temp_c)s, %(temp_f)s, %(feels_c)s, %(feels_f)s, %(description)s, %(wind_speed)s, %(humidity)s, %(sunrise)s, %(sunset)s, %(local_time_city)s, %(local_time_czech)s) RETURNING weather_app_db.id, weather_app_db.timestamp]
+[parameters: {'city': 'Sydney', 'temp_c': 19.28, 'temp_f': 66.7, 'feels_c': 19.3, 'feels_f': 66.74, 'description': 'overcast clouds', 'wind_speed': '8.75', 'humidity': '78', 'sunrise': datetime.datetime(2025, 10, 20, 6, 7, 53, tzinfo=datetime.timezone.utc), 'sunset': datetime.datetime(2025, 10, 20, 19, 11, 50, tzinfo=datetime.timezone.utc), 'local_time_city': '23:59:22', 'local_time_czech': '14:59:22'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-10-20 14:59:58,247 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 14:59:58,247 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:00:09,608 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:00:09,608 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:00:09,916 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:00:09,916 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:03:03,916 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:03:03,916 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:03:04,205 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:03:04,205 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:09:05,541 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:09:05,541 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:09:05,845 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:09:05,845 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:38:58,473 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:38:58,473 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:38:58,836 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:38:58,836 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:40:56,446 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,446 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-20 15:40:56,760 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-20 15:40:56,760 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:36,809 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:36,809 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-21 10:20:37,223 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-21 10:20:37,223 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-23 10:26:54,086 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 10:26:54,086 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-23 10:26:54,740 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 10:26:54,740 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-23 15:00:48,837 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 15:00:48,837 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+2025-10-23 15:12:44,900 - WeatherApp - ERROR - Error: An error occurred while trying to fetch weather data.
+2025-10-23 15:12:44,900 - WeatherApp - CRITICAL - Critical error: Unable to connect to the weather API!
+>>>>>>> 1c743951c867fffd67f08a9dc02bace231815ee5

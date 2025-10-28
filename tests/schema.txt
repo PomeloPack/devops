@@ -1,0 +1,8 @@
+tests/
+│  ├─ test_routes.py
+│  ├─ test_models.py
+│  └─ conftest.py
+├─ requirements.txt
+
+	•	tests/ bude obsahovat všechny testy.
+	•	conftest.py slouží k nastavení testovacího prostředí (např. testovací DB).

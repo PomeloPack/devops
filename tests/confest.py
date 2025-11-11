@@ -1,5 +1,5 @@
 import pytest
-from backend.weather_app_with_flask import app as flask_app, db
+from backend.weather_app import app as flask_app, db
 
 @pytest.fixture
 def app():

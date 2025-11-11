@@ -1,0 +1,24 @@
+spuštení všech služeb
+Přebuilduje image (pokud se změnil Dockerfile nebo kód) a spustí kontejnery.
+
+docker compose up --build 
+
+logy
+
+docker compose logs -f
+
+zastavení sližeb - zastavi a odstani kontejnery vytvořené compose
+
+docker compose down
+
+build image
+
+docker build -t 'name of image'
+
+build bez cache
+
+docker build --no-cache -t weather-backend .
+
+komplet čištění
+
+docker system prune -a

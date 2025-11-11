@@ -1,23 +1,44 @@
 from flask import Flask, jsonify, request
 import requests
+import os
+import time
 import datetime as dt
 import random
 import pytz
 import logger_configuration
+from sqlalchemy import create_engine
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from sqlalchemy.exc import OperationalError
 
 logger = logger_configuration.logger
 
 app = Flask(__name__)
 CORS(app)
 
+
+
 # postgre config
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
+# default for localhost
+SQLALCHEMY_DATABASE_URI_DEFAULT = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
+# this will be used with env variable
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', SQLALCHEMY_DATABASE_URI_DEFAULT)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+connected = False
+while not connected:
+    try:
+        with app.app_context():
+            db.create_all()
+        connected = True
+    except OperationalError:
+        print("Waiting for DB...")
+        time.sleep(2)
+
+
 
 # utc to cest for saving time into db in czech timezone
 local_tz = pytz.timezone('Europe/Prague')
@@ -158,4 +179,4 @@ def weather_endpoint():
         return jsonify({"error": "Failed to fetch weather data"}), 500
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5500, debug=True)  # port 5500 pro tvůj server
+    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 pro tvůj server

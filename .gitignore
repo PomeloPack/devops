@@ -1,0 +1,13 @@
+venv/
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+build/
+dist/
+*.egg-info/
+.vscode/
+.idea/
+.DS_Store
+docker-compose.override.yml

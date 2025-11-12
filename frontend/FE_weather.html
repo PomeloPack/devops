@@ -77,7 +77,7 @@
             console.debug("Fetch button clicked");
 
             try {
-                const response = await fetch('http://127.0.0.1:5500/weather');
+                const response = await fetch('http://weather_backend:5500/weather');
                 console.debug("Response received:", response);
 
                 if (!response.ok) {

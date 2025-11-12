@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from dotenv import load_dotenv
 import requests
 import os
 import time
@@ -13,6 +14,8 @@ from sqlalchemy.sql import func
 from sqlalchemy.exc import OperationalError
 
 logger = logger_configuration.logger
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)

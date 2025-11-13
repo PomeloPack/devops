@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from dotenv import load_dotenv
+from pathlib import Path
 import requests
 import os
 import time
@@ -15,7 +16,9 @@ from sqlalchemy.exc import OperationalError
 
 logger = logger_configuration.logger
 
-load_dotenv()
+if os.getenv("RUNNING_IN_DOCKER") != "1":
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
 CORS(app)
@@ -23,10 +26,16 @@ CORS(app)
 
 
 # postgre config
-# default for localhost
-SQLALCHEMY_DATABASE_URI_DEFAULT = 'postgresql://pomelo:pomeloheslo@localhost:5432/weather_app'
-# this will be used with env variable
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', SQLALCHEMY_DATABASE_URI_DEFAULT)
+# PostgreSQL config
+if os.getenv("RUNNING_IN_DOCKER") == "1":
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_DOCKER")
+else:
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+
+if not SQLALCHEMY_DATABASE_URI:
+    raise RuntimeError("SQLALCHEMY_DATABASE_URI is not set!")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -71,10 +80,13 @@ class WeatherAppDb(db.Model):
 with app.app_context():
     db.create_all()
 
+
 # Weather App Logic
 api_key = os.getenv("API_KEY")
 if not api_key:
     raise ValueError("API_KEY is not found from env var")
+else:
+    print("API_KEY loaded:", api_key[:4] + "****")
 
 city_list = [
     "New York", "Los Angeles", "Toronto", "Mexico City", "London", "Paris", "Berlin",

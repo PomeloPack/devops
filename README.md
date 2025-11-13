@@ -1,19 +1,8 @@
-# devops - walktrought
+kdyz se chce zapnout apliakce lokalne, vzdy ae musi zapnout kontejner z dockeru pro DB
 
-Basic application using weather API
-
-This project isn't focused to code base but more to devops technique.
-
-Working with containerization - docker, podmans, k8s
-
-CI/CD pipelines - github actions
-
-automatization
-
-testing
-
-debugging
-
-monitoring - grafana, kibana, argo
-
-cloud work - azure
+docker run --name weather_local_db \
+  -e POSTGRES_USER=pomelo \
+  -e POSTGRES_PASSWORD=pomeloheslo \
+  -e POSTGRES_DB=weather_app \
+  -p 5432:5432 \
+  -d postgres:16

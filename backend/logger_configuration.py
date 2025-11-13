@@ -1,52 +1,40 @@
 import logging
 import os
 
-# Define the base directory for logs
-base_dir = os.path.dirname(os.path.abspath(__file__))  # backend/
-parent_dir = os.path.dirname(base_dir)                 # project/
-log_directory = os.path.join(parent_dir, 'logs')
+# Determine log directory based on environment
+if os.path.exists('/.dockerenv'):
+    log_directory = "/tmp/logs"  # Docker
+else:
+    log_directory = os.path.join(os.path.dirname(__file__), 'logs')  # Lokálně
 
-# Create a logs directory if it doesn't exist
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
+# Create log directory if it doesn't exist
+os.makedirs(log_directory, exist_ok=True)
 
-# Create a logger
+# Logger setup
 logger = logging.getLogger('WeatherApp')
-logger.setLevel(logging.DEBUG)  # Setting the minimum log level to DEBUG for comprehensive logging
+logger.setLevel(logging.DEBUG)  # capture all levels
 
-# Create handlers with paths to the log files in the logs directory
-c_handler = logging.StreamHandler()  # Console handler
-f_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app.log'))  # Main log file
-w_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app_warning.log'))  # Warning log file
-e_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app_error.log'))  # Error log file
+# Console handler (all logs)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(logging.DEBUG)
 
-# Set levels for handlers
-c_handler.setLevel(logging.DEBUG)  # Log all levels to console
-f_handler.setLevel(logging.DEBUG)  # Log all levels to the main log file
-w_handler.setLevel(logging.WARNING)  # Only log warnings and above to warning log file
-e_handler.setLevel(logging.ERROR)  # Only log errors and above to error log file
+# File handler (all logs in one file, safe for non-root)
+file_path = os.path.join(log_directory, 'weather_app.log')
+f_handler = logging.FileHandler(file_path)
+f_handler.setLevel(logging.DEBUG)
 
-# Create formatters
-c_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-w_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-e_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# Formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(formatter)
+f_handler.setFormatter(formatter)
 
-# Assign formatters to handlers
-c_handler.setFormatter(c_format)
-f_handler.setFormatter(f_format)
-w_handler.setFormatter(w_format)
-e_handler.setFormatter(e_format)
-
-# Add handlers to the logger
+# Add handlers
 logger.addHandler(c_handler)
 logger.addHandler(f_handler)
-logger.addHandler(w_handler)
-logger.addHandler(e_handler)
 
-# Example log messages for each level
-logger.debug("Debugging information: This is a detailed trace of the application's behavior.")
-logger.info("Informational message: The application has started successfully.")
-logger.warning("Warning: The application is using a deprecated method.")
-logger.error("Error: An error occurred while trying to fetch weather data.")
-logger.critical("Critical error: Unable to connect to the weather API!")
+# Example logs (for testing)
+#logger.debug("Debugging information: This is a detailed trace of the application's behavior.")
+#logger.info("Informational message: The application has started successfully.")
+#logger.warning("Warning: The application is using a deprecated method.")
+#logger.error("Error: An error occurred while trying to fetch weather data.")
+#logger.critical("Critical error: Unable to connect to the weather API!")

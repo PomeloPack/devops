@@ -16,6 +16,7 @@ from sqlalchemy.exc import OperationalError
 
 logger = logger_configuration.logger
 
+# this part use env and variable and recoginze if it's run locally or via docker
 if os.getenv("RUNNING_IN_DOCKER") != "1":
     env_path = Path(__file__).resolve().parent.parent / ".env"
     load_dotenv(dotenv_path=env_path)
@@ -25,8 +26,10 @@ CORS(app)
 
 
 
-# postgre config
+
 # PostgreSQL config
+# solution for docker and local again - use .env and variables for db
+# db run always in the docker - hint: localhost:5433
 if os.getenv("RUNNING_IN_DOCKER") == "1":
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_DOCKER")
 else:
@@ -40,17 +43,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+
+# test part after start the BE and db connection
 for i in range(10):
     try:
         with app.app_context():
             db.create_all()
-        print("DB connected.")
+        print("DB connected.") # <- this is OK
         break
     except OperationalError:
         print(f"Waiting for DB... attempt {i+1}/10")
         time.sleep(2)
 else:
-    print("DB not connected after 10 attempts.")
+    print("DB not connected after 10 attempts.") # <- this is not OK 
     exit(1)
 
 
@@ -59,7 +64,7 @@ else:
 local_tz = pytz.timezone('Europe/Prague')
 timestmp_local = dt.datetime.now(local_tz)
 
-# table weather log
+# table weather app
 class WeatherAppDb(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     city = db.Column(db.String(100), nullable=False)
@@ -81,12 +86,12 @@ with app.app_context():
     db.create_all()
 
 
-# Weather App Logic
-api_key = os.getenv("API_KEY")
+# --- MAIN LOGIC OF AN APP ---
+api_key = os.getenv("API_KEY") # taken from .env
 if not api_key:
     raise ValueError("API_KEY is not found from env var")
 else:
-    print("API_KEY loaded:", api_key[:4] + "****")
+    print("API_KEY loaded:", api_key[:4] + "****") # test purpose
 
 city_list = [
     "New York", "Los Angeles", "Toronto", "Mexico City", "London", "Paris", "Berlin",
@@ -114,7 +119,7 @@ def fetch_weather_data(city):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     try:
         response = requests.get(url)
-        response.raise_for_status()  # vyhodí HTTPError, pokud status != 200
+        response.raise_for_status()  # HTTP ERROR if != 200
         logger.info("API request successful for city: %s", city)
         return response.json()
     except Exception as e:
@@ -122,7 +127,7 @@ def fetch_weather_data(city):
         return None
 
 def get_weather_for_city(city):
-    """Funkce, která připraví JSON pro frontend"""
+    """Function which create a JSON for FE"""
     response = fetch_weather_data(city)
     if not response:
         return None
@@ -185,12 +190,12 @@ def get_weather_for_city(city):
         logger.error('Failed to save to DB: %s', e)
         return None
 
-# Upravený endpoint, který přijímá parametr city
+# Endpoint for city parameters
 @app.route("/weather")
 def weather_endpoint():
-    city = request.args.get("city")  # získat city z query param
+    city = request.args.get("city")
     if not city:
-        city = random.choice(city_list)  # fallback, pokud není parametr zadán
+        city = random.choice(city_list)
 
     data = get_weather_for_city(city)
     if data:
@@ -269,4 +274,4 @@ def add_data():
 #}'
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 pro tvůj server
+    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 = my server

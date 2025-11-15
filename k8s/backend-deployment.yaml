@@ -15,33 +15,34 @@ spec:
         app: weather-backend
     spec:
       containers:
-      - name: weather-backend
-        image: devops-web_be:latest
-        ports:
-        - containerPort: 5500
-        env:
-        - name: API_KEY
-          value: "YOUR_API_KEY"
-        - name: RUNNING_IN_DOCKER
-          value: "1"
-        - name: DATABASE_URL_DOCKER
-          value: "postgresql://postgres:password@weather-db:5432/weather"
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 5500
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 5500
-          initialDelaySeconds: 15
-          periodSeconds: 10
+        - name: weather-backend
+          image: devops-web_be:latest
+          imagePullPolicy: IfNotPresent  # Důležité pro Minikube lokální image
+          ports:
+            - containerPort: 5500
+          env:
+            - name: API_KEY
+              value: "YOUR_API_KEY"  # nahraď skutečným klíčem
+            - name: RUNNING_IN_DOCKER
+              value: "1"
+            - name: DATABASE_URL_DOCKER
+              value: "postgresql://postgres:password@weather-db:5432/weather"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5500
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5500
+            initialDelaySeconds: 15
+            periodSeconds: 10

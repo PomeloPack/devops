@@ -15,6 +15,7 @@ spec:
       containers:
       - name: weather-frontend
         image: devops-web_fe:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         resources:

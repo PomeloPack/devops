@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: weather_backend
     env_file:
-      - ./.env       # .env v rootu, obsahuje DATABASE_URL a API_KEY
+      - ./.env       # .env in root rootu, contain DATABASE_URL a API_KEY
     environment:
       - RUNNING_IN_DOCKER=1
     depends_on:
@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     container_name: weather_frontend
     ports:
-      - "8080:80"     # frontend běží uvnitř kontejneru na portu 80
+      - "8080:80"     # FE run inside the container on port 80
     depends_on:
       - web_be
 

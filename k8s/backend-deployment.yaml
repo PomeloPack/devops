@@ -17,16 +17,26 @@ spec:
       containers:
         - name: weather-backend
           image: devops-web_be:latest
-          imagePullPolicy: IfNotPresent  # Důležité pro Minikube lokální image
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5500
           env:
             - name: API_KEY
-              value: "YOUR_API_KEY"  # nahraď skutečným klíčem
+              value: "YOUR_API_KEY"
             - name: RUNNING_IN_DOCKER
               value: "1"
             - name: DATABASE_URL_DOCKER
               value: "postgresql://postgres:password@weather-db:5432/weather"
+            - name: CITY_LIST
+              valueFrom:
+                configMapKeyRef:
+                  name: weather-config
+                  key: CITY_LIST
+            - name: CITY_TIMEZONES
+              valueFrom:
+                configMapKeyRef:
+                  name: weather-config
+                  key: CITY_TIMEZONES
           resources:
             requests:
               memory: "256Mi"

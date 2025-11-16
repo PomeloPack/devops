@@ -7,7 +7,7 @@ import time
 import datetime as dt
 import random
 import pytz
-import logger_configuration
+from backend import logger_configuration
 from sqlalchemy import create_engine
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -24,12 +24,7 @@ if os.getenv("RUNNING_IN_DOCKER") != "1":
 app = Flask(__name__)
 CORS(app)
 
-
-
-
 # PostgreSQL config
-# solution for docker and local again - use .env and variables for db
-# db run always in the docker - hint: localhost:5433
 if os.getenv("RUNNING_IN_DOCKER") == "1":
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_DOCKER")
 else:
@@ -43,22 +38,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-
-# test part after start the BE and db connection
-for i in range(10):
-    try:
-        with app.app_context():
-            db.create_all()
-        print("DB connected.") # <- this is OK
-        break
-    except OperationalError:
-        print(f"Waiting for DB... attempt {i+1}/10")
-        time.sleep(2)
-else:
-    print("DB not connected after 10 attempts.") # <- this is not OK 
-    exit(1)
-
-
+# --- DB connection setup ONLY if running as main ---
+def init_db():
+    for i in range(10):
+        try:
+            with app.app_context():
+                db.create_all()
+            print("DB connected.")  # <- OK
+            break
+        except OperationalError:
+            print(f"Waiting for DB... attempt {i+1}/10")
+            time.sleep(2)
+    else:
+        print("DB not connected after 10 attempts.")  # <- OK for main
+        exit(1)
 
 # utc to cest for saving time into db in czech timezone
 local_tz = pytz.timezone('Europe/Prague')
@@ -81,17 +74,16 @@ class WeatherAppDb(db.Model):
     local_time_czech = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-# create a table if not exist
+# create table for import safety
 with app.app_context():
     db.create_all()
 
-
 # --- MAIN LOGIC OF AN APP ---
-api_key = os.getenv("API_KEY") # taken from .env
+api_key = os.getenv("API_KEY")  # taken from .env
 if not api_key:
     raise ValueError("API_KEY is not found from env var")
 else:
-    print("API_KEY loaded:", api_key[:4] + "****") # test purpose
+    print("API_KEY loaded:", api_key[:4] + "****")  # test purpose
 
 city_list = [
     "New York", "Los Angeles", "Toronto", "Mexico City", "London", "Paris", "Berlin",
@@ -119,7 +111,7 @@ def fetch_weather_data(city):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     try:
         response = requests.get(url)
-        response.raise_for_status()  # HTTP ERROR if != 200
+        response.raise_for_status()
         logger.info("API request successful for city: %s", city)
         return response.json()
     except Exception as e:
@@ -181,7 +173,7 @@ def get_weather_for_city(city):
             "local_time_city": local_time_city,
             "local_time_czech": local_time_czech
         }
-    
+
     except KeyError as e:
         logger.error("Failed to retrieve data from response for city %s: %s", city, e)
         return None
@@ -205,33 +197,29 @@ def weather_endpoint():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok"}), 200 
-
-# http://localhost:5500/health
+    return jsonify({"status": "ok"}), 200
 
 @app.route("/data")
 def get_data():
     logs = WeatherAppDb.query.order_by(WeatherAppDb.timestamp.desc()).limit(10).all()
     return jsonify([
-    {
-        "id": log.id,
-        "city": log.city,
-        "temp_c": log.temp_c,
-        "temp_f": log.temp_f,
-        "feels_c": log.feels_c,
-        "feels_f": log.feels_f,
-        "description": log.description,
-        "wind_speed": log.wind_speed,
-        "humidity": log.humidity,
-        "sunrise": log.sunrise.strftime('%Y-%m-%d %H:%M:%S') if log.sunrise else None,
-        "sunset": log.sunset.strftime('%Y-%m-%d %H:%M:%S') if log.sunset else None,
-        "local_time_city": log.local_time_city,
-        "local_time_czech": log.local_time_czech,
-        "timestamp": log.timestamp.strftime('%Y-%m-%d %H:%M:%S') if log.timestamp else None
-    } for log in logs
-])
-
-# http://localhost:5500/data
+        {
+            "id": log.id,
+            "city": log.city,
+            "temp_c": log.temp_c,
+            "temp_f": log.temp_f,
+            "feels_c": log.feels_c,
+            "feels_f": log.feels_f,
+            "description": log.description,
+            "wind_speed": log.wind_speed,
+            "humidity": log.humidity,
+            "sunrise": log.sunrise.strftime('%Y-%m-%d %H:%M:%S') if log.sunrise else None,
+            "sunset": log.sunset.strftime('%Y-%m-%d %H:%M:%S') if log.sunset else None,
+            "local_time_city": log.local_time_city,
+            "local_time_czech": log.local_time_czech,
+            "timestamp": log.timestamp.strftime('%Y-%m-%d %H:%M:%S') if log.timestamp else None
+        } for log in logs
+    ])
 
 @app.route("/data", methods=["POST"])
 def add_data():
@@ -245,7 +233,7 @@ def add_data():
         description=new_entry.get("description"),
         wind_speed=new_entry.get("wind_speed"),
         humidity=new_entry.get("humidity"),
-        sunrise=new_entry.get("sunrise"),  # musí být datetime objekt nebo parsovat z stringu
+        sunrise=new_entry.get("sunrise"),
         sunset=new_entry.get("sunset"),
         local_time_city=new_entry.get("local_time_city"),
         local_time_czech=new_entry.get("local_time_czech")
@@ -254,24 +242,15 @@ def add_data():
     db.session.commit()
     return jsonify({"message": "Data stored"}), 201
 
-# example pro POST
+@app.route("/cities")
+def cities_endpoint():
+    return jsonify(city_list)
 
-#curl -X POST http://localhost:5500/data \
-#-H "Content-Type: application/json" \
-#-d '{
-#    "city": "Prague",
-#    "temp_c": 20.5,
-#    "temp_f": 68.9,
-#    "feels_c": 19.0,
-#    "feels_f": 66.2,
-#    "description": "sunny",
-#    "wind_speed": "5 km/h",
-#    "humidity": "60%",
-#    "sunrise": "2025-11-12T07:00:00",
-#    "sunset": "2025-11-12T16:30:00",
-#    "local_time_city": "14:30:00",
-#    "local_time_czech": "14:30:00"
-#}'
+@app.route("/")
+def home():
+    return "<h1>WeatherApp</h1>"
 
+# --- RUN ONLY IF DIRECTLY ---
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 = my server
+    init_db()
+    app.run(host="0.0.0.0", port=5600, debug=True)

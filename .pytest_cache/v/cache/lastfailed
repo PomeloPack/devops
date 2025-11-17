@@ -1,0 +1,4 @@
+{
+  "tests/test_api.py::test_cities_endpoint": true,
+  "tests/test_api.py::test_health_content": true
+}

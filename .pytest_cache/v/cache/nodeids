@@ -1,0 +1,14 @@
+[
+  "tests/dummy_test.py::test_dummy",
+  "tests/test_api.py::test_cities_content",
+  "tests/test_api.py::test_cities_endpoint",
+  "tests/test_api.py::test_endpoints[/cities-200]",
+  "tests/test_api.py::test_endpoints[/health-200]",
+  "tests/test_api.py::test_health_content",
+  "tests/test_api.py::test_health_endpoint",
+  "tests/test_cities.py::test_all_cities_have_timezone",
+  "tests/test_cities.py::test_city_and_timezone_are_strings",
+  "tests/test_cities.py::test_timezones_are_not_empty",
+  "tests/test_routes.py::test_cities_endpoint",
+  "tests/test_routes.py::test_home_endpoint"
+]

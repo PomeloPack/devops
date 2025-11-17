@@ -8,3 +8,4 @@ psycopg2-binary
 python-dotenv==1.1.1
 python-json-logger
 prometheus_client
+pytest==7.4.0

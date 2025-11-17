@@ -1,0 +1,47 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "weather_dashboard",
+    "title": "WeatherApp Metrics",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "HTTP Request Count",
+        "targets": [
+          {
+            "expr": "http_requests_total",
+            "legendFormat": "{{method}} {{endpoint}}",
+            "refId": "A"
+          }
+        ],
+        "xaxis": {"mode": "time"}
+      },
+      {
+        "type": "graph",
+        "title": "HTTP Request Latency",
+        "targets": [
+          {
+            "expr": "http_request_latency_seconds",
+            "legendFormat": "{{method}} {{endpoint}}",
+            "refId": "B"
+          }
+        ],
+        "xaxis": {"mode": "time"}
+      },
+      {
+        "type": "graph",
+        "title": "HTTP Errors",
+        "targets": [
+          {
+            "expr": "http_requests_total{status=~\"5..\"}",
+            "legendFormat": "{{endpoint}}",
+            "refId": "C"
+          }
+        ],
+        "xaxis": {"mode": "time"}
+      }
+    ],
+    "schemaVersion": 30,
+    "version": 1
+  }
+}

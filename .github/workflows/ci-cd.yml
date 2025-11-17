@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -7,17 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
+      # --- CHECKOUT ---
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Print working directory
-        run: pwd && ls -R
-
-      # Build frontend
+      # --- FRONTEND ---
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -26,32 +24,48 @@ jobs:
       - name: Build frontend
         run: |
           if [ -f frontend/package.json ]; then
-            cd frontend
-            npm install
-            npm run build
+            npm --prefix frontend install
+            npm --prefix frontend run build
           else
-            echo "Frontend build skipped, žádný package.json"
+            echo "Frontend build skipped (package.json missing)"
           fi
 
-      # Build backend artifact
+      # --- BACKEND ---
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'
+          python-version: '3.12'
 
-      - name: Build backend artifact
+      - name: Install backend dependencies
         run: |
           cd backend
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt, pokračuji"
-          fi
-          zip -r backend-artifact.zip .
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # Upload backend artifact
-      - name: Upload backend artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-artifact
-          path: backend/backend-artifact.zip
+      - name: Run backend tests
+        env:
+          SQLALCHEMY_DATABASE_URI: "sqlite:///test.db"
+          FLASK_ENV: "testing"
+          API_KEY: "dummy-key-for-test"
+        run: |
+          export PYTHONPATH=$(pwd):$(pwd)/backend
+          pytest -v tests/
+
+      # --- DOCKER BUILD ---
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend Docker image
+        run: docker build -t devops-web_be:latest ./backend
+
+      - name: Build frontend Docker image
+        run: docker build -t devops-web_fe:latest ./frontend
+
+  # --- DEPLOY DISABLED ---
+  deploy-to-k8s:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Deploy disabled
+        run: echo "Deploy to Kubernetes is intentionally disabled. Run deployment locally via Minikube."

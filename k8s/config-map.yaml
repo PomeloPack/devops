@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weather-config
+data:
+  CITY_LIST: '["New York","Los Angeles","Toronto","Mexico City","London","Paris","Berlin","Madrid","Prague","Tokyo","Beijing","Mumbai","Bangkok","Singapore","Sydney","Melbourne","Auckland","Cairo","Lagos","Nairobi","Cape Town"]'
+  CITY_TIMEZONES: '{
+    "New York": "America/New_York",
+    "Los Angeles": "America/Los_Angeles",
+    "Toronto": "America/Toronto",
+    "Mexico City": "America/Mexico_City",
+    "London": "Europe/London",
+    "Paris": "Europe/Paris",
+    "Berlin": "Europe/Berlin",
+    "Madrid": "Europe/Madrid",
+    "Prague": "Europe/Prague",
+    "Tokyo": "Asia/Tokyo",
+    "Beijing": "Asia/Shanghai",
+    "Mumbai": "Asia/Kolkata",
+    "Bangkok": "Asia/Bangkok",
+    "Singapore": "Asia/Singapore",
+    "Sydney": "Australia/Sydney",
+    "Melbourne": "Australia/Melbourne",
+    "Auckland": "Pacific/Auckland",
+    "Cairo": "Africa/Cairo",
+    "Lagos": "Africa/Lagos",
+    "Nairobi": "Africa/Nairobi",
+    "Cape Town": "Africa/Johannesburg"
+  }'

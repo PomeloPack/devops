@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-backend
+  labels:
+    app: weather-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: weather-backend
+  template:
+    metadata:
+      labels:
+        app: weather-backend
+    spec:
+      containers:
+        - name: weather-backend
+          image: devops-web_be:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5500
+          env:
+            # API_KEY Kubernetes Secret
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weather-api-key
+                  key: API_KEY
+            # run in Docker/K8s
+            - name: RUNNING_IN_DOCKER
+              value: "1"
+            # DB URL
+            - name: DATABASE_URL_DOCKER
+              value: "postgresql://pomelo:pomeloheslo@weather-db:5432/weather_app"
+            # cities and time from ConfigMap
+            - name: CITY_LIST
+              valueFrom:
+                configMapKeyRef:
+                  name: weather-config
+                  key: CITY_LIST
+            - name: CITY_TIMEZONES
+              valueFrom:
+                configMapKeyRef:
+                  name: weather-config
+                  key: CITY_TIMEZONES
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5500
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5500
+            initialDelaySeconds: 15
+            periodSeconds: 10

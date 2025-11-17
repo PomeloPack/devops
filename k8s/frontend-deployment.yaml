@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-frontend
+  template:
+    metadata:
+      labels:
+        app: weather-frontend
+    spec:
+      containers:
+      - name: weather-frontend
+        image: devops-web_fe:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config
+              key: BACKEND_URL

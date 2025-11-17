@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <div class="weather-card" id="weatherCard">
+<div class="weather-card" id="weatherCard">
     <h2>Weather Dashboard</h2>
     <p class="info" id="city">City: –</p>
     <p class="info" id="local_time_city">Local time in city: –</p>
@@ -69,43 +69,42 @@
     <button type="button" id="fetchButton">Get Weather</button>
 </div>
 
-    <script>
-        const button = document.getElementById('fetchButton');
+<script>
+const button = document.getElementById('fetchButton');
 
-        button.addEventListener('click', async (event) => {
-            event.preventDefault();
-            console.debug("Fetch button clicked");
+// use BE_URL from env
+const backendUrl = window.BACKEND_URL || "http://weather_backend:5500";
 
-            try {
-                const response = await fetch('http://127.0.0.1:5500/weather');
-                console.debug("Response received:", response);
+console.log("Frontend fetch URL set to:", backendUrl);
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+button.addEventListener('click', async (event) => {
+    event.preventDefault();
 
-                const data = await response.json();
-                console.debug("Data parsed:", data);
+    try {
+        const response = await fetch(`${backendUrl}/weather`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-                document.getElementById('city').textContent = `City: ${data.city}`;
-                document.getElementById('local_time_city').textContent = `Local time in city: ${data.local_time_city}`;
-                document.getElementById('local_time_czech').textContent = `Time in Czech Republic: ${data.local_time_czech}`;
-                document.getElementById('temp_c').textContent = `Temperature (°C): ${data.temp_c}`;
-                document.getElementById('temp_f').textContent = `Temperature (°F): ${data.temp_f}`;
-                document.getElementById('feels_c').textContent = `Feels like (°C): ${data.feels_c}`;
-                document.getElementById('feels_f').textContent = `Feels like (°F): ${data.feels_f}`;
-                document.getElementById('description').textContent = `Description: ${data.description}`;
-                document.getElementById('sunrise').textContent = `Sunrise: ${data.sunrise}`;
-                document.getElementById('sunset').textContent = `Sunset: ${data.sunset}`;
-                document.getElementById('wind_speed').textContent = `Wind speed: ${data.wind_speed} m/s`;
-                document.getElementById('humidity').textContent = `Humidity: ${data.humidity} %`;
+        const data = await response.json();
 
-            } catch (error) {
-                console.error("Failed to fetch weather:", error);
-                alert("Failed to fetch weather. Make sure the backend is running.");
-            }
-        });
-    </script>
+        document.getElementById('city').textContent = `City: ${data.city}`;
+        document.getElementById('local_time_city').textContent = `Local time in city: ${data.local_time_city}`;
+        document.getElementById('local_time_czech').textContent = `Time in Czech Republic: ${data.local_time_czech}`;
+        document.getElementById('temp_c').textContent = `Temperature (°C): ${data.temp_c}`;
+        document.getElementById('temp_f').textContent = `Temperature (°F): ${data.temp_f}`;
+        document.getElementById('feels_c').textContent = `Feels like (°C): ${data.feels_c}`;
+        document.getElementById('feels_f').textContent = `Feels like (°F): ${data.feels_f}`;
+        document.getElementById('description').textContent = `Description: ${data.description}`;
+        document.getElementById('sunrise').textContent = `Sunrise: ${data.sunrise}`;
+        document.getElementById('sunset').textContent = `Sunset: ${data.sunset}`;
+        document.getElementById('wind_speed').textContent = `Wind speed: ${data.wind_speed} m/s`;
+        document.getElementById('humidity').textContent = `Humidity: ${data.humidity} %`;
+
+    } catch (error) {
+        console.error("Failed to fetch weather:", error);
+        alert("Failed to fetch weather. Make sure the backend is running and CORS is allowed.");
+    }
+});
+</script>
 
 </body>
 </html>

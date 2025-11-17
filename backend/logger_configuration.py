@@ -1,52 +1,55 @@
 import logging
 import os
+import sys
+from pythonjsonlogger import jsonlogger
+import uuid
 
-# Define the base directory for logs
-base_dir = os.path.dirname(os.path.abspath(__file__))  # backend/
-parent_dir = os.path.dirname(base_dir)                 # project/
-log_directory = os.path.join(parent_dir, 'logs')
+# ID tracking
+def get_request_id():
+    return str(uuid.uuid4())
 
-# Create a logs directory if it doesn't exist
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
+# Determine environment
+IS_DOCKER = os.path.exists('/.dockerenv')
 
-# Create a logger
+# Log directory locally
+log_directory = "/tmp/logs" if IS_DOCKER else os.path.join(os.path.dirname(__file__), 'logs')
+os.makedirs(log_directory, exist_ok=True)
+
+# Logger setup
 logger = logging.getLogger('WeatherApp')
-logger.setLevel(logging.DEBUG)  # Setting the minimum log level to DEBUG for comprehensive logging
+logger.setLevel(logging.DEBUG)
 
-# Create handlers with paths to the log files in the logs directory
-c_handler = logging.StreamHandler()  # Console handler
-f_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app.log'))  # Main log file
-w_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app_warning.log'))  # Warning log file
-e_handler = logging.FileHandler(os.path.join(log_directory, 'weather_app_error.log'))  # Error log file
+formatter = jsonlogger.JsonFormatter('%(asctime)s %(name)s %(levelname)s %(message)s %(request_id)s %(method)s %(path)s %(status)s')
 
-# Set levels for handlers
-c_handler.setLevel(logging.DEBUG)  # Log all levels to console
-f_handler.setLevel(logging.DEBUG)  # Log all levels to the main log file
-w_handler.setLevel(logging.WARNING)  # Only log warnings and above to warning log file
-e_handler.setLevel(logging.ERROR)  # Only log errors and above to error log file
-
-# Create formatters
-c_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-w_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-e_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-# Assign formatters to handlers
-c_handler.setFormatter(c_format)
-f_handler.setFormatter(f_format)
-w_handler.setFormatter(w_format)
-e_handler.setFormatter(e_format)
-
-# Add handlers to the logger
+# Console handler
+c_handler = logging.StreamHandler(sys.stdout)
+c_handler.setLevel(logging.DEBUG)
+c_handler.setFormatter(formatter)
 logger.addHandler(c_handler)
-logger.addHandler(f_handler)
-logger.addHandler(w_handler)
-logger.addHandler(e_handler)
 
-# Example log messages for each level
-logger.debug("Debugging information: This is a detailed trace of the application's behavior.")
-logger.info("Informational message: The application has started successfully.")
-logger.warning("Warning: The application is using a deprecated method.")
-logger.error("Error: An error occurred while trying to fetch weather data.")
-logger.critical("Critical error: Unable to connect to the weather API!")
+# File handler (locally)
+if not IS_DOCKER:
+    file_path = os.path.join(log_directory, 'weather_app.json.log')
+    f_handler = logging.FileHandler(file_path)
+    f_handler.setLevel(logging.DEBUG)
+    f_handler.setFormatter(formatter)
+    logger.addHandler(f_handler)
+
+# Context helper
+def log_request(level, message, **kwargs):
+    context = {
+        "request_id": kwargs.get("request_id", get_request_id()),
+        "method": kwargs.get("method", ""),
+        "path": kwargs.get("path", ""),
+        "status": kwargs.get("status", "")
+    }
+    if level.lower() == "info":
+        logger.info(message, extra=context)
+    elif level.lower() == "debug":
+        logger.debug(message, extra=context)
+    elif level.lower() == "warning":
+        logger.warning(message, extra=context)
+    elif level.lower() == "error":
+        logger.error(message, extra=context)
+    elif level.lower() == "critical":
+        logger.critical(message, extra=context)

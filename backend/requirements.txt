@@ -5,3 +5,7 @@ Flask-Cors==3.0.10
 SQLAlchemy==2.0.20
 Flask-SQLAlchemy==3.0.5
 psycopg2-binary
+python-dotenv==1.1.1
+python-json-logger
+prometheus_client
+pytest==7.4.0

@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s  # jak často se sbírají metriky
+
+scrape_configs:
+  - job_name: 'weather-backend'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['web_be:5600']  # název služby + interní port
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']  # pro monitorování samotného Promethea

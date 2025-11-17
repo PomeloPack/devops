@@ -45,6 +45,7 @@ jobs:
         env:
           SQLALCHEMY_DATABASE_URI: "sqlite:///test.db"
           FLASK_ENV: "testing"
+          API_KEY: "dummy-key-for-test"
         run: |
           export PYTHONPATH=$(pwd):$(pwd)/backend
           pytest -v tests/

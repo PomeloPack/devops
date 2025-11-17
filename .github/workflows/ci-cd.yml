@@ -43,7 +43,7 @@ jobs:
 
       - name: Run backend tests
         run: |
-          export PYTHONPATH=$(pwd)
+          export PYTHONPATH=$(pwd):$(pwd)/backend
           pytest -v tests/
 
       # --- BUILD DOCKER IMAGES ---

@@ -1,22 +1,23 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g, Response
 from dotenv import load_dotenv
 from pathlib import Path
 import requests
 import os
 import time
-import datetime as dt
+import datetime as dt   
 import random
 import pytz
-from backend import logger_configuration
+import logger_configuration
 from sqlalchemy import create_engine
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy.exc import OperationalError
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 
 logger = logger_configuration.logger
 
-# this part use env and variable and recoginze if it's run locally or via docker
+# env load
 if os.getenv("RUNNING_IN_DOCKER") != "1":
     env_path = Path(__file__).resolve().parent.parent / ".env"
     load_dotenv(dotenv_path=env_path)
@@ -24,7 +25,7 @@ if os.getenv("RUNNING_IN_DOCKER") != "1":
 app = Flask(__name__)
 CORS(app)
 
-# PostgreSQL config
+# PostgreSQL config 
 if os.getenv("RUNNING_IN_DOCKER") == "1":
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_DOCKER")
 else:
@@ -35,29 +36,46 @@ if not SQLALCHEMY_DATABASE_URI:
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
-# --- DB connection setup ONLY if running as main ---
+#  Prometheus metrics - not fully finished
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'http_status'])
+REQUEST_LATENCY = Histogram('http_request_latency_seconds', 'Request latency', ['endpoint'])
+
+@app.before_request
+def start_timer():
+    g.start = time.time()
+
+@app.after_request
+def record_metrics(response):
+    resp_time = time.time() - g.start
+    REQUEST_LATENCY.labels(request.path).observe(resp_time)
+    REQUEST_COUNT.labels(request.method, request.path, response.status_code).inc()
+    return response
+
+@app.route("/metrics")
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
+
+# DB initialization 
 def init_db():
     for i in range(10):
         try:
             with app.app_context():
                 db.create_all()
-            print("DB connected.")  # <- OK
+            logger.info("DB connected.")
             break
         except OperationalError:
-            print(f"Waiting for DB... attempt {i+1}/10")
+            logger.warning(f"Waiting for DB... attempt {i+1}/10")
             time.sleep(2)
     else:
-        print("DB not connected after 10 attempts.")  # <- OK for main
+        logger.error("DB not connected after 10 attempts.")
         exit(1)
 
-# utc to cest for saving time into db in czech timezone
 local_tz = pytz.timezone('Europe/Prague')
 timestmp_local = dt.datetime.now(local_tz)
 
-# table weather app
+# Models for db
 class WeatherAppDb(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     city = db.Column(db.String(100), nullable=False)
@@ -74,16 +92,15 @@ class WeatherAppDb(db.Model):
     local_time_czech = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-# create table for import safety
 with app.app_context():
     db.create_all()
 
-# --- MAIN LOGIC OF AN APP ---
-api_key = os.getenv("API_KEY")  # taken from .env
+# API Key - found it .env
+api_key = os.getenv("API_KEY")
 if not api_key:
-    raise ValueError("API_KEY is not found from env var")
-else:
-    print("API_KEY loaded:", api_key[:4] + "****")  # test purpose
+    raise ValueError("API_KEY not found from env var")
+logger.info("API_KEY loaded: %s****", api_key[:4])
+
 
 city_list = [
     "New York", "Los Angeles", "Toronto", "Mexico City", "London", "Paris", "Berlin",
@@ -102,6 +119,7 @@ city_timezones = {
     "Nairobi": "Africa/Nairobi", "Cape Town": "Africa/Johannesburg"
 }
 
+
 def temp_kelvin_to_celsius(kelvin):
     celsius = kelvin - 273.15
     fahrenheit = celsius * 9/5 + 32
@@ -115,20 +133,17 @@ def fetch_weather_data(city):
         logger.info("API request successful for city: %s", city)
         return response.json()
     except Exception as e:
-        logger.error("Failed to make API request for city %s: %s", city, e)
+        logger.error("Failed API request for city %s: %s", city, e)
         return None
 
 def get_weather_for_city(city):
-    """Function which create a JSON for FE"""
     response = fetch_weather_data(city)
     if not response:
         return None
-
     try:
         temp_kelvin = response["main"]["temp"]
         temp_c, temp_f = temp_kelvin_to_celsius(temp_kelvin)
-        feels_kelvin = response["main"]["feels_like"]
-        feels_c, feels_f = temp_kelvin_to_celsius(feels_kelvin)
+        feels_c, feels_f = temp_kelvin_to_celsius(response["main"]["feels_like"])
         wind_speed = response["wind"]["speed"]
         humidity = response["main"]["humidity"]
         description = response["weather"][0]["description"]
@@ -141,7 +156,6 @@ def get_weather_for_city(city):
         local_time_city = dt.datetime.now(city_tz).strftime('%H:%M:%S')
         local_time_czech = dt.datetime.now(czech_tz).strftime('%H:%M:%S')
 
-        # save to db
         log = WeatherAppDb(
             city=city,
             temp_c=temp_c,
@@ -175,25 +189,21 @@ def get_weather_for_city(city):
         }
 
     except KeyError as e:
-        logger.error("Failed to retrieve data from response for city %s: %s", city, e)
+        logger.error("Missing data for city %s: %s", city, e)
         return None
     except Exception as e:
         db.session.rollback()
-        logger.error('Failed to save to DB: %s', e)
+        logger.error("DB save failed: %s", e)
         return None
 
-# Endpoint for city parameters
+# Endpoints how to test it in readme
 @app.route("/weather")
 def weather_endpoint():
-    city = request.args.get("city")
-    if not city:
-        city = random.choice(city_list)
-
+    city = request.args.get("city") or random.choice(city_list)
     data = get_weather_for_city(city)
     if data:
         return jsonify(data)
-    else:
-        return jsonify({"error": "Failed to fetch weather data"}), 500
+    return jsonify({"error": "Failed to fetch weather data"}), 500
 
 @app.route("/health")
 def health():
@@ -250,7 +260,6 @@ def cities_endpoint():
 def home():
     return "<h1>WeatherApp</h1>"
 
-# --- RUN ONLY IF DIRECTLY ---
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5600, debug=True)
+    app.run(host="0.0.0.0", port=5500, debug=True) #5500 run no docker backend - for local testing use different port

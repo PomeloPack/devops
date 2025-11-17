@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: weather-backend
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: weather-backend
   ports:
     - protocol: TCP
       port: 5500
       targetPort: 5500
+      nodePort: 30550

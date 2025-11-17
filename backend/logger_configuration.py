@@ -1,40 +1,55 @@
 import logging
 import os
+import sys
+from pythonjsonlogger import jsonlogger
+import uuid
 
-# Determine log directory based on environment
-if os.path.exists('/.dockerenv'):
-    log_directory = "/tmp/logs"  # Docker
-else:
-    log_directory = os.path.join(os.path.dirname(__file__), 'logs')  # Lokálně
+# ID tracking
+def get_request_id():
+    return str(uuid.uuid4())
 
-# Create log directory if it doesn't exist
+# Determine environment
+IS_DOCKER = os.path.exists('/.dockerenv')
+
+# Log directory locally
+log_directory = "/tmp/logs" if IS_DOCKER else os.path.join(os.path.dirname(__file__), 'logs')
 os.makedirs(log_directory, exist_ok=True)
 
 # Logger setup
 logger = logging.getLogger('WeatherApp')
-logger.setLevel(logging.DEBUG)  # capture all levels
+logger.setLevel(logging.DEBUG)
 
-# Console handler (all logs)
-c_handler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter('%(asctime)s %(name)s %(levelname)s %(message)s %(request_id)s %(method)s %(path)s %(status)s')
+
+# Console handler
+c_handler = logging.StreamHandler(sys.stdout)
 c_handler.setLevel(logging.DEBUG)
-
-# File handler (all logs in one file, safe for non-root)
-file_path = os.path.join(log_directory, 'weather_app.log')
-f_handler = logging.FileHandler(file_path)
-f_handler.setLevel(logging.DEBUG)
-
-# Formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 c_handler.setFormatter(formatter)
-f_handler.setFormatter(formatter)
-
-# Add handlers
 logger.addHandler(c_handler)
-logger.addHandler(f_handler)
 
-# Example logs (for testing)
-#logger.debug("Debugging information: This is a detailed trace of the application's behavior.")
-#logger.info("Informational message: The application has started successfully.")
-#logger.warning("Warning: The application is using a deprecated method.")
-#logger.error("Error: An error occurred while trying to fetch weather data.")
-#logger.critical("Critical error: Unable to connect to the weather API!")
+# File handler (locally)
+if not IS_DOCKER:
+    file_path = os.path.join(log_directory, 'weather_app.json.log')
+    f_handler = logging.FileHandler(file_path)
+    f_handler.setLevel(logging.DEBUG)
+    f_handler.setFormatter(formatter)
+    logger.addHandler(f_handler)
+
+# Context helper
+def log_request(level, message, **kwargs):
+    context = {
+        "request_id": kwargs.get("request_id", get_request_id()),
+        "method": kwargs.get("method", ""),
+        "path": kwargs.get("path", ""),
+        "status": kwargs.get("status", "")
+    }
+    if level.lower() == "info":
+        logger.info(message, extra=context)
+    elif level.lower() == "debug":
+        logger.debug(message, extra=context)
+    elif level.lower() == "warning":
+        logger.warning(message, extra=context)
+    elif level.lower() == "error":
+        logger.error(message, extra=context)
+    elif level.lower() == "critical":
+        logger.critical(message, extra=context)

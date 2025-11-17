@@ -21,12 +21,19 @@ spec:
           ports:
             - containerPort: 5500
           env:
+            # API_KEY Kubernetes Secret
             - name: API_KEY
-              value: "YOUR_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: weather-api-key
+                  key: API_KEY
+            # run in Docker/K8s
             - name: RUNNING_IN_DOCKER
               value: "1"
+            # DB URL
             - name: DATABASE_URL_DOCKER
-              value: "postgresql://postgres:password@weather-db:5432/weather"
+              value: "postgresql://pomelo:pomeloheslo@weather-db:5432/weather_app"
+            # cities and time from ConfigMap
             - name: CITY_LIST
               valueFrom:
                 configMapKeyRef:

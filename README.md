@@ -1,330 +1,423 @@
-kdyz se chce zapnout apliakce lokalne, vzdy ae musi zapnout kontejner z dockeru pro DB
+README.md — Weather Application 
 
-docker run --name weather_local_db \
-  -e POSTGRES_USER=pomelo \
-  -e POSTGRES_PASSWORD=pomeloheslo \
-  -e POSTGRES_DB=weather_app \
-  -p 5432:5432 \
-  -d postgres:16
+This project is a complete DevOps-ready application composed of:
 
+- **Python/Flask backend**
+- **HTML/JavaScript frontend**  
+- **PostgreSQL database**  
+- **Prometheus metrics**  
+- **Grafana dashboards**  
+- **Docker & Docker Compose orchestration**  
+- **Kubernetes manifests**  
+- **CI/CD pipeline configuration (GitHub Actions or GitLab CI)**  
 
-  muze se jeste aktulizovat github worflows ze bude vice automaticke, ale zkusti to az bude main branch
+The goal of the project is to demonstrate ability to design, containerize, deploy, monitor, and document a simple cloud-native application.
 
-  name: CI/CD Pipeline
+---
+Architecture Overview
 
+The system consists of three main components:
 
-.github/workflows/deploy.yml:
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+- **Frontend** – Static HTML/JS, calling the backend via REST  
+- **Backend** – Flask API + PostgreSQL + OpenWeather integration  
+- **Database** – Stores cities & fetched weather results  
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+Monitoring is enabled via Prometheus scraping backend metrics.
 
-    steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
+                    ┌────────────────────────────────────┐
+                    │              FRONTEND               │
+                    │     HTML / JavaScript / Fetch API   │
+                    └───────────────────┬──────────────────┘
+                                        │ HTTP Request (/weather)
+                                        ▼
+                    ┌────────────────────────────────────┐
+                    │               BACKEND               │
+                    │     Flask API + SQLAlchemy ORM      │
+                    │     Integrates with OpenWeather     │
+                    └───────────────────┬──────────────────┘
+                                        │ SQL Queries
+                                        ▼
+                    ┌────────────────────────────────────┐
+                    │                 DB                  │
+                    │          PostgreSQL Database        │
+                    └────────────────────────────────────┘
 
-      # 2️⃣ Set up Docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
+---
 
-      # 3️⃣ Set up Minikube
-      - name: Set up Minikube
-        uses: manusa/actions-setup-minikube@v3
-        with:
-          minikube version: '1.37.0'
-          driver: docker
+Main Project Structure:
 
-      # 4️⃣ Make deploy script executable
-      - name: Make deploy script executable
-        run: chmod +x ./scripts/deploy.sh
+├── README.md
+├── docker-compose.yml
+├── .gitignore
 
-      # 5️⃣ Run deploy script
-      - name: Build, test, and deploy
-        run: ./scripts/deploy.sh
+├── backend/
+│   ├── weather_app.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── …
 
+├── frontend/
+│   ├── index.html
+│   ├── Dockerfile
+│   └── …
 
+├── k8s/
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── configmap.yaml
+│   └── …
 
+├── prometheus/
+│   └── prometheus.yaml
 
-        backup weather.py:
+├── grafana/
+│   └── dashboards/
+│       └── weather-dashboard.json
 
-        from flask import Flask, jsonify, request
-from dotenv import load_dotenv
-from pathlib import Path
-import requests
-import os
-import time
-import datetime as dt
-import random
-import pytz
-from . import logger_configuration
-from sqlalchemy import create_engine
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from sqlalchemy.exc import OperationalError
+├── scripts/
+│   └── deploy.sh
 
-logger = logger_configuration.logger
+├── .github/workflows/
+│   └── ci.yml
 
-# this part use env and variable and recoginze if it's run locally or via docker
-if os.getenv("RUNNING_IN_DOCKER") != "1":
-    env_path = Path(__file__).resolve().parent.parent / ".env"
-    load_dotenv(dotenv_path=env_path)
+└── tests/
+├── test_api.py
+├── test_cities.py
+├── test_models.py
+└── test_routes.py
 
-app = Flask(__name__)
-CORS(app)
+---
 
+Prerequisites:
 
-# PostgreSQL config
-# solution for docker and local again - use .env and variables for db
-# db run always in the docker - hint: localhost:5433
-if os.getenv("RUNNING_IN_DOCKER") == "1":
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL_DOCKER")
-else:
-    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+- Docker
+- Docker Compose
+- Minikube ( k8s Testing)
+- Install requirements.txt ( pip install -r requirements.txt)
+- Live Server for FE
+- Python3.12
 
-if not SQLALCHEMY_DATABASE_URI:
-    raise RuntimeError("SQLALCHEMY_DATABASE_URI is not set!")
+---
 
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+Running Locally (Without Docker) - Backend
 
-db = SQLAlchemy(app)
+from root folder come to **backend**
+pip install -r requirements.txt
+**export** SQLALCHEMY_DATABASE_URI=“postgresql://pomelo:pomeloheslo@localhost:5433/weather_app” ( in the app use .env) - DB run only on docker - must be always UP
+**USE** : 
+docker run --name weather_db \
+    -e POSTGRES_USER=pomelo \
+    -e POSTGRES_PASSWORD=pomeloheslo \
+    -e POSTGRES_DB=weather_app \
+    -p 5433:5432 \
+    -v postgres_data:/var/lib/postgresql/data \
+    postgres:16
+and **docker ps**
+result will be:
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                                         NAMES
+78dca2435191   postgres:16   "docker-entrypoint.s…"   24 minutes ago   Up 24 minutes   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp   weather_db
+run the BE: python3 weather_app.py
+You can test backend API from the terminal use:
 
+cURL health:
+http://localhost:5500/health - for heatl status
 
-# test part after start the BE and db connection
-for i in range(10):
-    try:
-        with app.app_context():
-            db.create_all()
-        print("DB connected.") # <- this is OK
-        break
-    except OperationalError:
-        print(f"Waiting for DB... attempt {i+1}/10")
-        time.sleep(2)
-else:
-    print("DB not connected after 10 attempts.") # <- this is not OK 
-    exit(1)
-
-
-
-# utc to cest for saving time into db in czech timezone
-local_tz = pytz.timezone('Europe/Prague')
-timestmp_local = dt.datetime.now(local_tz)
-
-# table weather app
-class WeatherAppDb(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(100), nullable=False)
-    temp_c = db.Column(db.Float)
-    temp_f = db.Column(db.Float)
-    feels_c = db.Column(db.Float)
-    feels_f = db.Column(db.Float)
-    description = db.Column(db.String(100))
-    wind_speed = db.Column(db.String(100))
-    humidity = db.Column(db.String(100))
-    sunrise = db.Column(db.DateTime(timezone=True))
-    sunset = db.Column(db.DateTime(timezone=True))
-    local_time_city = db.Column(db.String(50))
-    local_time_czech = db.Column(db.String(50))
-    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
-
-# create a table if not exist
-with app.app_context():
-    db.create_all()
-
-
-# --- MAIN LOGIC OF AN APP ---
-api_key = os.getenv("API_KEY") # taken from .env
-if not api_key:
-    raise ValueError("API_KEY is not found from env var")
-else:
-    print("API_KEY loaded:", api_key[:4] + "****") # test purpose
-
-city_list = [
-    "New York", "Los Angeles", "Toronto", "Mexico City", "London", "Paris", "Berlin",
-    "Madrid", "Prague", "Tokyo", "Beijing", "Mumbai", "Bangkok", "Singapore", "Sydney",
-    "Melbourne", "Auckland", "Cairo", "Lagos", "Nairobi", "Cape Town"
-]
-
-city_timezones = {
-    "New York": "America/New_York", "Los Angeles": "America/Los_Angeles",
-    "Toronto": "America/Toronto", "Mexico City": "America/Mexico_City",
-    "London": "Europe/London", "Paris": "Europe/Paris", "Berlin": "Europe/Berlin",
-    "Madrid": "Europe/Madrid", "Prague": "Europe/Prague", "Tokyo": "Asia/Tokyo",
-    "Beijing": "Asia/Shanghai", "Mumbai": "Asia/Kolkata", "Bangkok": "Asia/Bangkok",
-    "Singapore": "Asia/Singapore", "Sydney": "Australia/Sydney", "Melbourne": "Australia/Melbourne",
-    "Auckland": "Pacific/Auckland", "Cairo": "Africa/Cairo", "Lagos": "Africa/Lagos",
-    "Nairobi": "Africa/Nairobi", "Cape Town": "Africa/Johannesburg"
+Response:
+curl http://localhost:5500/health
+{
+  "status": "ok"
 }
 
-def temp_kelvin_to_celsius(kelvin):
-    celsius = kelvin - 273.15
-    fahrenheit = celsius * 9/5 + 32
-    return round(celsius, 2), round(fahrenheit, 2)
+cURL GET:
+http://localhost:5500/data
 
-def fetch_weather_data(city):
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # HTTP ERROR if != 200
-        logger.info("API request successful for city: %s", city)
-        return response.json()
-    except Exception as e:
-        logger.error("Failed to make API request for city %s: %s", city, e)
-        return None
+Response:
+{"city": "Mexico City",
+    "description": "clear sky",
+    "feels_c": 21.47,
+    "feels_f": 70.65,
+    "humidity": "15",
+    "id": 3,
+    "local_time_city": "13:13:53",
+    "local_time_czech": "20:13:53",
+    "sunrise": "2025-11-16 06:45:23",
+    "sunset": "2025-11-16 17:57:34",
+    "temp_c": 22.75,
+    "temp_f": 72.95,
+    "timestamp": "2025-11-16 19:13:53",
+    "wind_speed": "3.09"}
 
-def get_weather_for_city(city):
-    """Function which create a JSON for FE"""
-    response = fetch_weather_data(city)
-    if not response:
-        return None
+You will see max last 10 records from the database
 
-    try:
-        temp_kelvin = response["main"]["temp"]
-        temp_c, temp_f = temp_kelvin_to_celsius(temp_kelvin)
-        feels_kelvin = response["main"]["feels_like"]
-        feels_c, feels_f = temp_kelvin_to_celsius(feels_kelvin)
-        wind_speed = response["wind"]["speed"]
-        humidity = response["main"]["humidity"]
-        description = response["weather"][0]["description"]
+cURL POST:
+  curl -X POST http://localhost:5500/data \
+-H "Content-Type: application/json" \
+-d '{
+    "city": "Prague",
+    "temp_c": 20.5,
+    "temp_f": 68.9,
+    "feels_c": 19.0,
+    "feels_f": 66.2,
+    "description": "sunny",
+    "wind_speed": "5 km/h",
+    "humidity": "60%",
+    "sunrise": "2025-11-12T07:00:00",
+    "sunset": "2025-11-12T16:30:00",
+    "local_time_city": "14:30:00",
+    "local_time_czech": "14:30:00"
+}'
 
-        sunrise = dt.datetime.fromtimestamp(response["sys"]["sunrise"] + response["timezone"], dt.timezone.utc)
-        sunset = dt.datetime.fromtimestamp(response["sys"]["sunset"] + response["timezone"], dt.timezone.utc)
+Response:
+{
+  "message": "Data stored"
+}
 
-        city_tz = pytz.timezone(city_timezones[city])
-        czech_tz = pytz.timezone('Europe/Prague')
-        local_time_city = dt.datetime.now(city_tz).strftime('%H:%M:%S')
-        local_time_czech = dt.datetime.now(czech_tz).strftime('%H:%M:%S')
 
-        # save to db
-        log = WeatherAppDb(
-            city=city,
-            temp_c=temp_c,
-            temp_f=temp_f,
-            feels_c=feels_c,
-            feels_f=feels_f,
-            description=description,
-            wind_speed=str(wind_speed),
-            humidity=str(humidity),
-            sunrise=sunrise,
-            sunset=sunset,
-            local_time_city=local_time_city,
-            local_time_czech=local_time_czech,
-        )
-        db.session.add(log)
-        db.session.commit()
+---
 
-        return {
-            "city": city,
-            "temp_c": temp_c,
-            "temp_f": temp_f,
-            "feels_c": feels_c,
-            "feels_f": feels_f,
-            "wind_speed": wind_speed,
-            "humidity": humidity,
-            "description": description,
-            "sunrise": sunrise.strftime('%H:%M:%S'),
-            "sunset": sunset.strftime('%H:%M:%S'),
-            "local_time_city": local_time_city,
-            "local_time_czech": local_time_czech
-        }
-    
-    except KeyError as e:
-        logger.error("Failed to retrieve data from response for city %s: %s", city, e)
-        return None
-    except Exception as e:
-        db.session.rollback()
-        logger.error('Failed to save to DB: %s', e)
-        return None
+Postgre DB settings:
 
-# Endpoint for city parameters
-@app.route("/weather")
-def weather_endpoint():
-    city = request.args.get("city")
-    if not city:
-        city = random.choice(city_list)
+in the terminal use: 
+for local - psql -h localhost -p 5433 -U pomelo -d weather_app
+for docker - docker exec -it weather_db psql -U pomelo -d weather_app
 
-    data = get_weather_for_city(city)
-    if data:
-        return jsonify(data)
-    else:
-        return jsonify({"error": "Failed to fetch weather data"}), 500
+            List of relations
+ Schema |      Name      | Type  | Owner  
+--------+----------------+-------+--------
+ public | weather_app_db | table | pomelo
 
-@app.route("/health")
-def health():
-    return jsonify({"status": "ok"}), 200 
+                                          Table "public.weather_app_db"
+      Column      |           Type           | Collation | Nullable |                  Default                   
+------------------+--------------------------+-----------+----------+--------------------------------------------
+ id               | integer                  |           | not null | nextval('weather_app_db_id_seq'::regclass)
+ city             | character varying(100)   |           | not null | 
+ temp_c           | double precision         |           |          | 
+ temp_f           | double precision         |           |          | 
+ feels_c          | double precision         |           |          | 
+ feels_f          | double precision         |           |          | 
+ description      | character varying(100)   |           |          | 
+ wind_speed       | character varying(100)   |           |          | 
+ humidity         | character varying(100)   |           |          | 
+ sunrise          | timestamp with time zone |           |          | 
+ sunset           | timestamp with time zone |           |          | 
+ local_time_city  | character varying(50)    |           |          | 
+ local_time_czech | character varying(50)    |           |          | 
+ timestamp        | timestamp with time zone |           |          | now()
+Indexes:
+    "weather_app_db_pkey" PRIMARY KEY, btree (id)
 
-# http://localhost:5500/health
+---
 
-@app.route("/data")
-def get_data():
-    logs = WeatherAppDb.query.order_by(WeatherAppDb.timestamp.desc()).limit(10).all()
-    return jsonify([
-    {
-        "id": log.id,
-        "city": log.city,
-        "temp_c": log.temp_c,
-        "temp_f": log.temp_f,
-        "feels_c": log.feels_c,
-        "feels_f": log.feels_f,
-        "description": log.description,
-        "wind_speed": log.wind_speed,
-        "humidity": log.humidity,
-        "sunrise": log.sunrise.strftime('%Y-%m-%d %H:%M:%S') if log.sunrise else None,
-        "sunset": log.sunset.strftime('%Y-%m-%d %H:%M:%S') if log.sunset else None,
-        "local_time_city": log.local_time_city,
-        "local_time_czech": log.local_time_czech,
-        "timestamp": log.timestamp.strftime('%Y-%m-%d %H:%M:%S') if log.timestamp else None
-    } for log in logs
-])
+Run Locally (Without Docker) - FrontEnd
 
-# http://localhost:5500/data
+Right click to **index.html**
+Open with Live Server
+You will be redirected to browser where you will see the Weather Dashborad.
+Click to Get Weather and you will see the stats which will be saved into the postgre database.
 
-@app.route("/data", methods=["POST"])
-def add_data():
-    new_entry = request.get_json()
-    log = WeatherAppDb(
-        city=new_entry.get("city", "Manual"),
-        temp_c=new_entry.get("temp_c"),
-        temp_f=new_entry.get("temp_f"),
-        feels_c=new_entry.get("feels_c"),
-        feels_f=new_entry.get("feels_f"),
-        description=new_entry.get("description"),
-        wind_speed=new_entry.get("wind_speed"),
-        humidity=new_entry.get("humidity"),
-        sunrise=new_entry.get("sunrise"),  # musí být datetime objekt nebo parsovat z stringu
-        sunset=new_entry.get("sunset"),
-        local_time_city=new_entry.get("local_time_city"),
-        local_time_czech=new_entry.get("local_time_czech")
-    )
-    db.session.add(log)
-    db.session.commit()
-    return jsonify({"message": "Data stored"}), 201
+---
 
-# example pro POST
+Running with Docker Compose:
 
-#curl -X POST http://localhost:5500/data \
-#-H "Content-Type: application/json" \
-#-d '{
-#    "city": "Prague",
-#    "temp_c": 20.5,
-#    "temp_f": 68.9,
-#    "feels_c": 19.0,
-#    "feels_f": 66.2,
-#    "description": "sunny",
-#    "wind_speed": "5 km/h",
-#    "humidity": "60%",
-#    "sunrise": "2025-11-12T07:00:00",
-#    "sunset": "2025-11-12T16:30:00",
-#    "local_time_city": "14:30:00",
-#    "local_time_czech": "14:30:00"
-#}'
+**docker compose up --build**
+you will see this:
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5500, debug=True)  # port 5500 = my server
+[+] Running 29/37
+ ⠧ db [⣿⣿⣿⣿⣿⣀⣿⣿⣿⣿⣿⣿⣿⣿] 81.52MB / 158.7MB Pulling                                                                                                                                             46.7s 
+ ⠧ grafana [⣿⣿⣿⣿⣤⣿⣦⣿⣿⣿] 111.2MB / 187MB   Pulling                                                                                                                                            46.7s 
+ ⠧ prometheus [⣿⣿⣿⣶⣷⣿⣿⣿⣿⣿] 107.4MB / 124.5MB Pulling 
+
+ Waint until all parts of container will be successfully instaled.
+
+Access:
+
+- **Frontend:** http://localhost:8080  
+- **Backend:** http://localhost:5500/weather  
+- **Database:** localhost:5433 
+
+**docker images** to check the images of the docker:
+docker images
+REPOSITORY        TAG       IMAGE ID       CREATED        SIZE
+devops-web_be     latest    2d860387d50e   15 hours ago   276MB
+devops-web_fe     latest    a073908c8c14   15 hours ago   80.9MB
+postgres          16        74bbe2dbc3c3   2 days ago     657MB
+prom/prometheus   latest    49214755b615   2 weeks ago    472MB
+grafana/grafana   latest    35c41e0fd029   3 weeks ago    909MB
+
+**docker ps** for running containers:
+CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+9c0023f214c9   grafana/grafana:latest   "/run.sh"                7 seconds ago   Up 6 seconds   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   grafana
+973c8136671c   devops-web_fe            "/docker-entrypoint.…"   7 seconds ago   Up 6 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp       weather_frontend
+75c3131a218e   prom/prometheus:latest   "/bin/prometheus --c…"   7 seconds ago   Up 6 seconds   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp   prometheus
+b8be136852b1   devops-web_be            "python weather_app.…"   7 seconds ago   Up 6 seconds   0.0.0.0:5500->5500/tcp, [::]:5500->5500/tcp   weather_backend
+32f3c7b67419   postgres:16              "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp   weather_db
+
+Now you will be able to test whole appliation with the docker.
+
+for example healt ( same what we test locally now just running via docker)
+
+cURL:
+http://localhost:5500/health
+
+response:
+{
+  "status": "ok"
+}
+
+If something doesn't work please check the logs:
+
+docker logs weather_backend
+docker logs weather_frontend
+
+or on the front end use dev tools ( browser - network)
+
+hint:
+if yout build docker compose before and anything works wrong - restrat it
+
+**docker compose down**
+**docker system prine -af**
+**docker compose up --buidl**
+
+In the docker sometimes you must use this:
+export $(cat .env | xargs)
+to export API key from .env to fetch data
+
+---
+
+Kubernetes - minuikube running:
+
+Start minikube:
+
+minikube start --driver=docker
+😄  minikube v1.37.0 on Darwin 26.1 (arm64)
+✨  Using the docker driver based on existing profile
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.48 ...
+🤷  docker "minikube" container is missing, will recreate.
+🔥  Creating docker container (CPUs=2, Memory=4000MB) ...
+🐳  Preparing Kubernetes v1.34.0 on Docker 28.4.0 ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+hint: if there is any problem with start minikube use command **minikube delete** and start it again
+
+minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+Docker CLI for MINIKUBE - build into cluster
+
+eval $(minikube -p minikube docker-env)
+
+Checking of nodes and pods
+
+kubectl get nodes
+
+NAME       STATUS   ROLES           AGE    VERSION
+minikube   Ready    control-plane   2m5s   v1.34.0
+
+kubectl get pods -A
+
+NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bc5c9577-wr2j2           1/1     Running   0          2m16s
+kube-system   etcd-minikube                      1/1     Running   0          2m22s
+kube-system   kube-apiserver-minikube            1/1     Running   0          2m23s
+kube-system   kube-controller-manager-minikube   1/1     Running   0          2m22s
+kube-system   kube-proxy-9bjrm                   1/1     Running   0          2m16s
+kube-system   kube-scheduler-minikube            1/1     Running   0          2m22s
+kube-system   storage-provisioner                1/1     Running   0          2m21s
+
+Build docker image for BE + FE
+
+docker build -t devops-web_be ./backend
+docker build -t devops-web_fe ./frontend
+
+Deploy into minikube
+
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/backend-service.yaml
+kubectl apply -f k8s/config-map.yaml
+kubectl apply -f k8s/db-deployment.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply -f k8s/frontend-service.yaml
+
+after deleting minikube and all the data use:
+
+kubectl create secret generic weather-api-key \
+  --from-literal=API_KEY=0060cf5abb2bfda0140d4fc62051bb9e
+secret/weather-api-key created
+
+use command **kubectl get pods**
+
+NAME                                READY   STATUS    RESTARTS   AGE
+weather-backend-74658dcb5d-jsjfw    1/1     Running   0          20s
+weather-backend-74658dcb5d-m7j65    1/1     Running   0          20s
+weather-db-786868f9d6-ldkt4         1/1     Running   0          3m31s
+weather-frontend-57f66ccd59-2rpg9   1/1     Running   0          3m31s
+
+View logs for troubleshooting:
+
+kubectl logs <pod-name>
+
+Acess BE from FE pod:
+
+kubectl exec -it weather-frontend-8d45b7f4f-hlvxz -- curl -s http://weather-backend:5500/health
+
+{
+  "status": "ok"
+}
+
+Automation deploy shell script:
+
+./scripts/deploy.sh
+
+This script will do:
+
+CHeck if minikube is running
+Switch Docker to Minikibe env
+build BE docker IMAGE
+build FE docker IMAGE
+Load images into Minikube
+Running BE test
+
+---
+
+ArgoCD:
+
+Is implemented,
+in the terminal use: kubectl port-forward svc/argocd-server -n argocd 8080:443
+WEB URL: https://localhost:8080/login?return_url=https%3A%2F%2Flocalhost%3A8080%2Fapplications
+
+user: admin
+passwd: zqvD2FRSkvXeqmso
+
+
+
+
+
+---
+
+Next Steps / Future Work
+
+While the core functionality is fully implemented, the following enhancements would be completed with more time:
+	1.	Monitoring and Observability
+	•	Expose application metrics (/metrics) for Prometheus.
+	•	Create Grafana dashboards to visualize request rates, latency, errors, and business metrics.
+	•	Optionally add tracing for end-to-end request tracking.
+	2.	Caching (Redis)
+	•	Add Redis service for caching in Docker Compose and Kubernetes.
+	•	Integrate caching in the application to improve performance.
+	3.	Testing
+	•	Expand unit and integration test coverage for all endpoints.
+	•	Add automated tests for database interactions and deployment validation.
+	4.	CI/CD Enhancements
+	•	Implement rollback strategies and deployment validation in GitHub Actions.
+	•	Add support for multiple environments (dev/staging/prod).
+	•	Integrate security scanning for Docker images.
+	5.	Kubernetes Improvements
+	•	Add resource limits and requests to all containers.
+	•	Use Helm charts for parameterized deployments.
+	•	Introduce secrets management for sensitive configuration.

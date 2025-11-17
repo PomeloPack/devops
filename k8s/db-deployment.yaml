@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: weather-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,12 +27,17 @@ spec:
       - name: postgres
         image: postgres:16
         env:
-        - name: POSTGRES_PASSWORD
-          value: "password"
-        - name: POSTGRES_DB
-          value: "weather"
+          - name: POSTGRES_USER
+            value: "pomelo"
+          - name: POSTGRES_PASSWORD
+            value: "pomeloheslo"
+          - name: POSTGRES_DB
+            value: "weather_app"
         ports:
-        - containerPort: 5432
+          - containerPort: 5432
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: db-data
         resources:
           requests:
             memory: "256Mi"
@@ -29,6 +45,10 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: weather-db-pvc
 ---
 apiVersion: v1
 kind: Service

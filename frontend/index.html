@@ -72,29 +72,19 @@
 <script>
 const button = document.getElementById('fetchButton');
 
-// ogic for local run and docker compose
-let backendUrl;
-if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-    backendUrl = 'http://localhost:5500';
-} else {
-    backendUrl = 'http://web_backend:5500';
-}
+// use BE_URL from env
+const backendUrl = window.BACKEND_URL || "http://weather_backend:5500";
+
 console.log("Frontend fetch URL set to:", backendUrl);
 
 button.addEventListener('click', async (event) => {
     event.preventDefault();
-    console.debug("Fetch button clicked, backendUrl:", backendUrl);
 
     try {
         const response = await fetch(`${backendUrl}/weather`);
-        console.debug("Response received:", response);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
-        console.debug("Data parsed:", data);
 
         document.getElementById('city').textContent = `City: ${data.city}`;
         document.getElementById('local_time_city').textContent = `Local time in city: ${data.local_time_city}`;

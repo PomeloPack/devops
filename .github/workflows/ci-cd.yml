@@ -42,6 +42,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run backend tests
+        env:
+          SQLALCHEMY_DATABASE_URI: "sqlite:///test.db"
+          FLASK_ENV: "testing"
         run: |
           export PYTHONPATH=$(pwd):$(pwd)/backend
           pytest -v tests/

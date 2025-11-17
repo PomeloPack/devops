@@ -347,7 +347,7 @@ kubectl apply -f k8s/frontend-service.yaml
 after deleting minikube and all the data use:
 
 kubectl create secret generic weather-api-key \
-  --from-literal=API_KEY=0060cf5abb2bfda0140d4fc62051bb9e
+  --from-literal=API_KEY=0060c-rest found in .env
 secret/weather-api-key created
 
 use command **kubectl get pods**

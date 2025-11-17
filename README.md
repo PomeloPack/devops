@@ -421,3 +421,13 @@ While the core functionality is fully implemented, the following enhancements wo
 	•	Add resource limits and requests to all containers.
 	•	Use Helm charts for parameterized deployments.
 	•	Introduce secrets management for sensitive configuration.
+
+
+  ---
+
+  Problems to handle:
+
+  There is a problem with testing from local - docker - kubernetes
+  Problem is in the port and redirecting FE - BE
+  This problem will be easier to fix on the server but write the code which works locally and with docker and minikube want more time to fix, because there is a problem with CORS in the kube 
+  I know about it but after using a redirection to the ports it works.

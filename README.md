@@ -5,13 +5,15 @@ This project is a complete DevOps-ready application composed of:
 - **Python/Flask backend**
 - **HTML/JavaScript frontend**  
 - **PostgreSQL database**  
-- **Prometheus metrics**  
-- **Grafana dashboards**  
+- **Prometheus metrics**  - only installed without metrics
+- **Grafana dashboards**  - only installed without metrics
 - **Docker & Docker Compose orchestration**  
 - **Kubernetes manifests**  
-- **CI/CD pipeline configuration (GitHub Actions or GitLab CI)**  
+- **CI/CD pipeline configuration (GitHub Actions)**  
 
-The goal of the project is to demonstrate ability to design, containerize, deploy, monitor, and document a simple cloud-native application.
+The goal of the project is to demonstrate the ability to design, containerize, deploy, monitor, and document a simple application.
+
+This is an application that uses the weather api to show metrics of my choice (time, temperature, etc.) for given cities
 
 ---
 Architecture Overview
@@ -370,6 +372,11 @@ kubectl exec -it weather-frontend-8d45b7f4f-hlvxz -- curl -s http://weather-back
   "status": "ok"
 }
 
+**port forwarding**
+
+kubectl port-forward svc/weather-backend 5000:5000
+kubectl port-forward svc/weather-frontend 8080:80
+
 Automation deploy shell script:
 
 ./scripts/deploy.sh
@@ -431,3 +438,5 @@ While the core functionality is fully implemented, the following enhancements wo
   Problem is in the port and redirecting FE - BE
   This problem will be easier to fix on the server but write the code which works locally and with docker and minikube want more time to fix, because there is a problem with CORS in the kube 
   I know about it but after using a redirection to the ports it works.
+
+  The next part is to write a better FE for testing on local/docker/k8s. The first idea was to write the whole project in one script to test in all possibilities, but I ran into a problem when mounting on other ports due to containers or kube.

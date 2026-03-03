@@ -10,4 +10,5 @@ dist/
 .vscode/
 .idea/
 .DS_Store
-docker-compose.override.yml
+docker-compose.override.ymllogs/
+.pytest_cache/

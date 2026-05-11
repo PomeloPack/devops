@@ -74,23 +74,6 @@ def init_db():
 local_tz = pytz.timezone('Europe/Prague')
 timestmp_local = dt.datetime.now(local_tz)
 
-# Models for db
-class WeatherAppDb(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(100), nullable=False)
-    temp_c = db.Column(db.Float)
-    temp_f = db.Column(db.Float)
-    feels_c = db.Column(db.Float)
-    feels_f = db.Column(db.Float)
-    description = db.Column(db.String(100))
-    wind_speed = db.Column(db.String(100))
-    humidity = db.Column(db.String(100))
-    sunrise = db.Column(db.DateTime(timezone=True))
-    sunset = db.Column(db.DateTime(timezone=True))
-    local_time_city = db.Column(db.String(50))
-    local_time_czech = db.Column(db.String(50))
-    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
-
 with app.app_context():
     db.create_all()
 

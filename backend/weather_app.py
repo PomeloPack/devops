@@ -8,12 +8,11 @@ import datetime as dt
 import random
 import pytz
 import logger_configuration
-from sqlalchemy import create_engine
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 from sqlalchemy.exc import OperationalError
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from backend.models import WeatherAppDb
 
 logger = logger_configuration.logger
 

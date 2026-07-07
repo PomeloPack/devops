@@ -1,0 +1,4 @@
+selaed secret
+na sifrovani dat
+zasifruji se data v gitu a jen v danem podu nebo mnifestu pujdou videt
+v kubernetes kubeseal

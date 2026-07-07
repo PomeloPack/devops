@@ -11,8 +11,8 @@ import logger_configuration
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.sql import func
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
-from backend.models import WeatherAppDb
 
 logger = logger_configuration.logger
 
@@ -33,9 +33,26 @@ else:
 if not SQLALCHEMY_DATABASE_URI:
     raise RuntimeError("SQLALCHEMY_DATABASE_URI is not set!")
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+class WeatherAppDb(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(100), nullable=False)
+    temp_c = db.Column(db.Float)
+    temp_f = db.Column(db.Float)
+    feels_c = db.Column(db.Float)
+    feels_f = db.Column(db.Float)
+    description = db.Column(db.String(100))
+    wind_speed = db.Column(db.String(100))
+    humidity = db.Column(db.String(100))
+    sunrise = db.Column(db.DateTime(timezone=True))
+    sunset = db.Column(db.DateTime(timezone=True))
+    local_time_city = db.Column(db.String(50))
+    local_time_czech = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
 #  Prometheus metrics - not fully finished
 REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'http_status'])
@@ -74,8 +91,8 @@ def init_db():
 local_tz = pytz.timezone('Europe/Prague')
 timestmp_local = dt.datetime.now(local_tz)
 
-with app.app_context():
-    db.create_all()
+#with app.app_context():
+#    db.create_all()
 
 # API Key - found it .env
 api_key = os.getenv("API_KEY")

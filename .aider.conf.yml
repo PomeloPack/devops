@@ -1,0 +1,14 @@
+########################
+# API Keys and settings:
+
+api-key:
+  - gemini=AIzaSyCx4h0IvRyT4b2In-C-BHBXvEvOHeuoGO8
+
+#gemini-api-key: AIzaSyCx4h0IvRyT4b2In-C-BHBXvEvOHeuoGO8
+
+#############
+# Main model:
+
+model: gemini/gemini-2.5-flash
+
+dark-mode: true

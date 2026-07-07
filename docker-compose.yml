@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./db_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
 
@@ -31,8 +31,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        BACKEND_URL: "http://weather_backend:5500"
     container_name: weather_frontend
     ports:
       - "8080:80"
@@ -62,6 +60,3 @@ services:
       - prometheus
     volumes:
     - ./grafana:/var/lib/grafana/dashboards:ro
-
-volumes:
-  postgres_data:

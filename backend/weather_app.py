@@ -262,4 +262,4 @@ def home():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5500, debug=True) #5500 run no docker backend - for local testing use different port
+    app.run(host="0.0.0.0", port=5500, debug=True)

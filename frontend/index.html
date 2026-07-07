@@ -72,16 +72,12 @@
 <script>
 const button = document.getElementById('fetchButton');
 
-// use BE_URL from env
-const backendUrl = window.BACKEND_URL || "http://weather_backend:5500";
-
-console.log("Frontend fetch URL set to:", backendUrl);
-
 button.addEventListener('click', async (event) => {
     event.preventDefault();
 
     try {
-        const response = await fetch(`${backendUrl}/weather`);
+        // Zde voláme Nginx proxy, která to předá backendu
+        const response = await fetch(`/api/weather`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
@@ -101,7 +97,7 @@ button.addEventListener('click', async (event) => {
 
     } catch (error) {
         console.error("Failed to fetch weather:", error);
-        alert("Failed to fetch weather. Make sure the backend is running and CORS is allowed.");
+        alert("Failed to fetch weather. Check console for details.");
     }
 });
 </script>

@@ -12,3 +12,4 @@ dist/
 .DS_Store
 docker-compose.override.ymllogs/
 .pytest_cache/
+db_data/

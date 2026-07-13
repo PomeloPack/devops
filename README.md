@@ -5,8 +5,8 @@ This project is a complete DevOps-ready application composed of:
 - **Python/Flask backend**
 - **HTML/JavaScript frontend**  
 - **PostgreSQL database**  
-- **Prometheus metrics**  - only installed without metrics
-- **Grafana dashboards**  - only installed without metrics
+- **Prometheus metrics**  
+- **Grafana dashboards**  
 - **Docker & Docker Compose orchestration**  
 - **Kubernetes manifests**  
 - **CI/CD pipeline configuration (GitHub Actions)**  
@@ -97,29 +97,12 @@ Prerequisites:
 - Minikube ( k8s Testing)
 - Install requirements.txt ( pip install -r requirements.txt)
 - Live Server for FE
-- Python3.12
+- Python3.13
 
 ---
 
-Running Locally (Without Docker) - Backend
-
-from root folder come to **backend**
-pip install -r requirements.txt
-**export** SQLALCHEMY_DATABASE_URI=“postgresql://pomelo:pomeloheslo@localhost:5433/weather_app” ( in the app use .env) - DB run only on docker - must be always UP
-**USE** : 
-docker run --name weather_db \
-    -e POSTGRES_USER=pomelo \
-    -e POSTGRES_PASSWORD=pomeloheslo \
-    -e POSTGRES_DB=weather_app \
-    -p 5433:5432 \
-    -v postgres_data:/var/lib/postgresql/data \
-    postgres:16
-and **docker ps**
-result will be:
-CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                                         NAMES
-78dca2435191   postgres:16   "docker-entrypoint.s…"   24 minutes ago   Up 24 minutes   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp   weather_db
-run the BE: python3 weather_app.py
-You can test backend API from the terminal use:
+It's possible to test backend + frontend locally - but whole logic of the process is in the DOCKER.
+DATABASE run on postregres and always in the docker
 
 cURL health:
 http://localhost:5500/health - for heatl status

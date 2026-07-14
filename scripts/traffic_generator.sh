@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🚀 Spouštím generátor provozu pro Grafanu..."
-echo "Zastavíš ho stisknutím CTRL+C"
+echo "zabij stisknutím CTRL+C"
 echo "-------------------------------------------"
 
 while true; do

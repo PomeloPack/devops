@@ -42,6 +42,8 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+      #trvale ukládani data
+      - prometheus-data:/prometheus
     ports:
       - "9090:9090"
     depends_on:
@@ -59,4 +61,7 @@ services:
     depends_on:
       - prometheus
     volumes:
-    - ./grafana:/var/lib/grafana/dashboards:ro
+      #uloží se nastavení Grafany včetně Data Source
+      - grafana-data:/var/lib/grafana
+      #  mapování pro dashboardy
+      - ./grafana:/var/lib/grafana/dashboards:ro

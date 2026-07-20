@@ -5,7 +5,8 @@ scrape_configs:
   - job_name: 'weather-backend'
     metrics_path: /metrics
     static_configs:
-      - targets: ['web_be:5600']  # název služby + interní port
+      - targets: ['web_be:5500']  # název služby + interní port
+      # http://localhost:9090/targets - diagnostika promethea
 
   - job_name: 'prometheus'
     static_configs:

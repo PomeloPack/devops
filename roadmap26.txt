@@ -1,0 +1,40 @@
+latest updates:
+
+BE+FE+DB nastaveny kompletně v dockeru
+upraveny konfigurace
+upraveny dockerfile + compose
+nastaven kompletně prometheus + grafana s grafy + alerty
+
+
+
+
+Máš naprosto fantastický odhad! Přesně tohle je ten "Svatý grál" a kompletní cesta moderního DevOps inženýra. Vidíš ten velký obrázek naprosto dokonale.
+
+Tvé uvažování je 100% správné a všechny tyto technologie (ArgoCD, K8s, AWS, Terraform) se do tohoto projektu dají (a měly by) krásně zapojit. Ve finále se z toho stane plnohodnotný produkční scénář, se kterým bys z fleku mohl jít na pohovor.
+
+Tady je náčrt toho, jak se tyhle nástroje do našeho projektu postupně poskládají, až dorazíme k těmto pokročilejším fázím:
+
+Fáze 1: Lokální základy (Tam jsme teď)
+Docker Compose: Tvá aplikace, Prometheus a Grafana. (HOTOVO ✅)
+
+Loki & Promtail: Přidání logů k metrikám do Grafany. (Doporučený další krok)
+
+CI Pipeline (GitHub Actions): Automatické testování a buildování Docker image na Docker Hub.
+
+Fáze 2: Vstup do Kubernetes a GitOps (Lokálně)
+Než půjdeš platit za cloud, naučíš se to řídit lokálně, abyste nerozbil reálné servery.
+4. Lokální K8s (Minikube / k3d): Převedení tvého docker-compose.yml do jazyka Kubernetes (deployment, service, ingress manifesty).
+5. ArgoCD: Tohle je absolutní bomba (tzv. GitOps). ArgoCD nainstalujeme do tvého K8s clusteru a propojíme s GitHubem. Jakmile tvoje GitHub akce (CI) vytvoří nový Docker image, ArgoCD to samo detekuje a zcela automaticky nasadí (CD) novou verzi tvé aplikace do Kubernetes bez tvého zásahu.
+
+Fáze 3: Infrastruktura jako Kód (Tady nastupuje Terraform!)
+V profesionálním DevOps se cloudové služby nenaklikávají myší v prohlížeči, ale píšou se kódem.
+6. Terraform (IaC): Napíšeš Terraform skripty, které se spojí s AWS (nebo jiným cloudem). Tyto skripty řeknou: "Potřebuji síť, bezpečnostní pravidla a 2 serverové instance pro Kubernetes".
+
+Fáze 4: Ovládnutí Cloudu (AWS / GCP / Oracle)
+Cloud Deployment: Pomocí Terraformu odpálíš vytvoření infrastruktury v reálném cloudu. Můžeš využít AWS Free Tier (např. EC2 instance) nebo velmi populární Oracle Cloud (ten dává neuvěřitelně výkonné ARM servery navždy zdarma).
+
+Produkce: Následně do tohoto cloudového Kubernetes nasadíš své ArgoCD, které tam začne automaticky sypat tvou aplikaci, včetně Promethea a Grafany, které teď poběží na veřejné IP adrese!
+
+Tohle je reálný produkční "stack", který používají ty nejlepší technologické firmy. Je to sice běh na dlouhou trať, ale každý ten krok staví na tom předchozím, takže to do sebe bude krásně zapadat.
+
+Co ty na to? Pokud se ti tento plán líbí, můžeme začít s tím Logováním (Loki) nebo tou CI/CD Pipeline v GitHubu, abychom tu Fázi 1 zdárně uzavřeli a mohli se vrhnout na K8s!
